@@ -1,0 +1,29 @@
+spring:
+  config:
+    activate:
+      on-profile: app
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${db.url:jdbc:mysql://localhost:3307/visideserver}
+    username: ${db.username:root}
+    password: ${db.password:1234}
+    hikari:
+      connection-timeout: 20000
+      minimum-idle: 10
+      maximum-pool-size: 10
+      idle-timeout: 10000
+      max-lifetime: 1000
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          time_zone: UTC
+      javax:
+        persistence:
+          validation:
+            mode: none
+    show-sql: true
