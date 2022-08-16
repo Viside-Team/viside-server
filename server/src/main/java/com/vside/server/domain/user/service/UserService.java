@@ -14,11 +14,11 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class UserService {
-    private final JpaUserRepository jpaUserRepository;
-    public long getUserId(long id){
-        Optional<ViUserEntity> user = jpaUserRepository.findByUserId(0L);
-
-        return user.get().getUserId();
-    }
+//    private final JpaUserRepository jpaUserRepository;
+//    public long getUserId(long id){
+//        Optional<ViUserEntity> user = jpaUserRepository.findByUserId(0L);
+//
+//        return user.get().getUserId();
+//    }
 
 }

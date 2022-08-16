@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/user")
+@RequestMapping("/user")
 @RestController
 @Slf4j
 public class UserController {
