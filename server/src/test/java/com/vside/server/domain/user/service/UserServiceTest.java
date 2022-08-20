@@ -1,7 +1,5 @@
 package com.vside.server.domain.user.service;
 
-import com.vside.server.domain.user.Entity.ViUserEntity;
-import com.vside.server.domain.user.dao.JpaUserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
