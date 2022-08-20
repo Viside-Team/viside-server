@@ -24,8 +24,7 @@ public class User {
     private String email;
 
     @Column(name = "login_type")
-    @Enumerated(EnumType.STRING)
-    private LoginType loginType;
+    private String loginType;
 
     @Column(name = "join_date")
     private LocalDateTime joinDate;
@@ -36,8 +35,11 @@ public class User {
     @Column(name = "age_range")
     private String ageRange;
 
+    @Column(name = "sns_id", nullable = false)
+    private String snsId;
+
     @Builder
-    public User(Long userId, String userName, String email, LoginType loginType, LocalDateTime joinDate, Gender gender, String ageRange) {
+    public User(Long userId, String userName, String email, String loginType, LocalDateTime joinDate, Gender gender, String ageRange, String snsId) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
@@ -45,5 +47,6 @@ public class User {
         this.joinDate = defaultIfNull(joinDate, now());
         this.gender = gender;
         this.ageRange = ageRange;
+        this.snsId = snsId;
     }
 }
