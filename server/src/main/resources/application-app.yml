@@ -2,6 +2,9 @@ spring:
   config:
     activate:
       on-profile: app
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${db.url:jdbc:mysql://localhost:3307/visideserver}
@@ -15,7 +18,7 @@ spring:
       max-lifetime: 1000
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
