@@ -1,5 +1,6 @@
 package com.vside.server.domain.auth.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequest {
-    @NotNull
+    @NotNull @ApiModelProperty(required = true, example = "kakao")
     private String provider;
-    @NotNull
+    @NotNull @ApiModelProperty(required = true)
     private String snsId;
 }

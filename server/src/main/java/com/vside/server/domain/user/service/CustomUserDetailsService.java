@@ -22,10 +22,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(final String snsId) {
-        return userRepository.findOneBySnsId(snsId)
-                .map(this::createUser)
-                .orElseThrow(() -> new UsernameNotFoundException(snsId + " -> 데이터베이스에서 찾을 수 없습니다."));
+    public UserDetails loadUserByUsername(final String snsId) throws UsernameNotFoundException{
+        User user = userRepository.findOneBySnsId(snsId);
+        return createUser(user);
     }
 
     private org.springframework.security.core.userdetails.User createUser(User user) {

@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckMemberResponse {
+public class LoginResponse {
     private boolean memberStatus;
+    private String jwt;
 }

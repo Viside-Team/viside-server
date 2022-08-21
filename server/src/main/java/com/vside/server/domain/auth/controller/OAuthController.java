@@ -1,12 +1,18 @@
 package com.vside.server.domain.auth.controller;
 
-import com.vside.server.domain.auth.dto.CheckMemberResponse;
 import com.vside.server.domain.auth.dto.LoginRequest;
+import com.vside.server.domain.auth.dto.LoginResponse;
 import com.vside.server.domain.auth.service.OAuthService;
+import com.vside.server.domain.user.Entity.User;
+import com.vside.server.jwt.TokenProvider;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,31 +25,25 @@ import javax.validation.Valid;
 public class OAuthController {
 
     private final OAuthService oAuthService;
+    private final TokenProvider tokenProvider;
 
     /*
-    authentication code로 첫 로그인 시 회원가입
-    url: http://localhost:8080/login/kakao
-    request:
+    로그인
+    POST http://localhost:8080/login
      */
     @PostMapping("/login")
-    @ApiOperation(value = "회원가입 여부 확인 (API 토큰 필요없음)")
-    public ResponseEntity<CheckMemberResponse> checkMemberStat(@Valid @RequestBody LoginRequest loginRequest) {
-        CheckMemberResponse res = new CheckMemberResponse(oAuthService.exists(loginRequest.getProvider(), loginRequest.getSnsId()));
+    @ApiOperation(value = "login (JWT 토큰 필요없음)", notes = "회원 여부와 jwt token을 반환합니다")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        LoginResponse res = new LoginResponse();
+        boolean memStat = oAuthService.exists(loginRequest.getProvider(), loginRequest.getSnsId());
+        if (memStat){
+            User user = oAuthService.getExistingUser(loginRequest.getSnsId());
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, AuthorityUtils.createAuthorityList("ROLE_USER"));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = tokenProvider.createToken(authentication);
+            res.setJwt(jwt);
+        }
+        res.setMemberStatus(memStat);
         return ResponseEntity.ok().body(res);
     }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginResponse> authentication(@Valid @RequestBody LoginRequest loginRequest) {
-//        if (!oAuthService.existsBySnsId(loginRequest.getSnsId())){
-//            //회원가입 절차
-//            //새로운 유저 등록 -> 등록 후 해당 사용자 로그인 절차 진행
-//        }
-//        //그게 아니면 로그인 절차
-//        User user = oAuthService.getExistingUser(loginRequest.getSnsId());
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, AuthorityUtils.createAuthorityList("ROLE_USER"));
-//        //Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        LoginResponse res = new LoginResponse(tokenProvider.createToken(authentication));
-//        return ResponseEntity.ok().body(res);
-//    }
 }
