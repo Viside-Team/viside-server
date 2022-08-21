@@ -18,19 +18,18 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String userName;
 
     private String email;
 
-    @Column(name = "login_type")
+    @Column(name = "login_type", nullable = false)
     private String loginType;
 
     @Column(name = "join_date")
     private LocalDateTime joinDate;
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private String gender;
 
     @Column(name = "age_range")
     private String ageRange;
@@ -39,7 +38,7 @@ public class User {
     private String snsId;
 
     @Builder
-    public User(Long userId, String userName, String email, String loginType, LocalDateTime joinDate, Gender gender, String ageRange, String snsId) {
+    public User(Long userId, String userName, String email, String loginType, LocalDateTime joinDate, String gender, String ageRange, String snsId) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
