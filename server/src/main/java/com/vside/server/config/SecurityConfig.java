@@ -62,6 +62,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/hello").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/signin").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
 
                 .anyRequest().authenticated()
