@@ -1,5 +1,8 @@
 package com.vside.server.domain.user.service;
 
+import com.vside.server.domain.user.Entity.User;
+import com.vside.server.domain.user.dao.UserRepository;
+import com.vside.server.domain.user.dto.JoinRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,11 +14,11 @@ import javax.transaction.Transactional;
 @Service
 @Slf4j
 public class UserService {
-//    private final JpaUserRepository jpaUserRepository;
-//    public long getUserId(long id){
-//        Optional<ViUserEntity> user = jpaUserRepository.findByUserId(0L);
-//
-//        return user.get().getUserId();
-//    }
+    private final UserRepository userRepository;
+
+    public Long join(JoinRequest joinRequest) {
+        User user = userRepository.save(joinRequest.toEntity());
+        return user.getUserId();
+    }
 
 }
