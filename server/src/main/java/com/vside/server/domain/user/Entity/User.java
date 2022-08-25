@@ -1,5 +1,7 @@
 package com.vside.server.domain.user.Entity;
 
+import com.vside.server.domain.common.Gender;
+import com.vside.server.domain.common.LoginType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,12 +27,14 @@ public class User {
     private String email;
 
     @Column(name = "login_type", nullable = false)
-    private String loginType;
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType;
 
     @Column(name = "join_date")
     private LocalDateTime joinDate;
 
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(name = "age_range")
     private String ageRange;
@@ -39,7 +43,7 @@ public class User {
     private String snsId;
 
     @Builder
-    public User(Long userId, String userName, String email, String loginType, LocalDateTime joinDate, String gender, String ageRange, String snsId) {
+    public User(Long userId, String userName, String email, LoginType loginType, LocalDateTime joinDate, Gender gender, String ageRange, String snsId) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
