@@ -14,11 +14,6 @@ import javax.transaction.Transactional;
 @Service
 @Slf4j
 public class UserService {
-    private final UserRepository userRepository;
 
-    public Long join(JoinRequest joinRequest) {
-        User user = userRepository.save(joinRequest.toEntity());
-        return user.getUserId();
-    }
 
 }
