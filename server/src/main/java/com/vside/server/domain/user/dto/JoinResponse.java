@@ -6,5 +6,5 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class JoinResponse {
-    private Long userId;
+    private boolean success;
 }
