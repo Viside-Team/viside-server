@@ -10,6 +10,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findOneBySnsId(String snsId);
     long countByLoginTypeAndSnsId(LoginType loginType, String snsId);
-    Optional<User> deleteUserByUserId(String id);
     Optional<User> findBySnsId(String id);
 }

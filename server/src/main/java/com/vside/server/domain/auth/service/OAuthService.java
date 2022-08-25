@@ -35,11 +35,8 @@ public class OAuthService{
         return userRepository.findOneBySnsId(snsId);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public WithdrawalResponseDtoCode delExistingUser(WithdrawalRequestDto dto) {
-//        if (!tokenProvider.validateToken(dto.getJwt())){
-//            return WithdrawalResponseDtoCode.INVALID_JWT;
-//        }
         if (userRepository.findBySnsId(dto.getSnsId()).isEmpty()){
             return WithdrawalResponseDtoCode.INVALID_USERID;
         }
