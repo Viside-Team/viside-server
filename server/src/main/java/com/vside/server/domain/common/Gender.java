@@ -7,6 +7,10 @@ public enum Gender {
 
     @JsonCreator
     public static Gender from(String s){
+
+        System.out.println(s);
+        System.out.println(Gender.valueOf(s.toUpperCase()));
+
         return Gender.valueOf(s.toUpperCase());
     }
 }

@@ -7,6 +7,8 @@ public enum LoginType {
 
     @JsonCreator
     public static LoginType from(String s){
+        System.out.println(s);
+        System.out.println(LoginType.valueOf(s.toUpperCase()));
         return LoginType.valueOf(s.toUpperCase());
     }
 }
