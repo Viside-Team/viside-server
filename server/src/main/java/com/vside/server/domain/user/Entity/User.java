@@ -39,7 +39,7 @@ public class User {
     @Column(name = "age_range")
     private String ageRange;
 
-    @Column(name = "sns_id", nullable = false)
+    @Column(name = "sns_id", nullable = false, unique = true)
     private String snsId;
 
     @Builder

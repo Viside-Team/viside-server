@@ -15,11 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Locale;
 
 @Slf4j
 @Controller
@@ -28,7 +27,6 @@ public class OAuthController {
 
     private final OAuthService oAuthService;
     private final TokenProvider tokenProvider;
-
 
     /*
     로그인
@@ -53,7 +51,6 @@ public class OAuthController {
     @PostMapping("/signin")
     @ApiOperation(value = "회원가입 (API 토큰 필요없음)", notes = "회원가입 성공/실패 여부 반환")
     public ResponseEntity<JoinResponse> join(@Valid @RequestBody JoinRequest joinRequest){
-        System.out.println(joinRequest);
         if (oAuthService.join(joinRequest) > 0)
             return ResponseEntity.ok().body(new JoinResponse(true));
         return ResponseEntity.ok().body(new JoinResponse(false));
@@ -72,5 +69,12 @@ public class OAuthController {
                 .body(response);
     }
 
+    @DeleteMapping("/logout1")
+    @ApiOperation(value = "로그아웃", notes = "로그아웃 성공 실패 여부 반환")
+    public ResponseEntity<String> out(HttpServletRequest req){
+        String token = req.getHeader("Authorization");
+        oAuthService.logout_t(token.substring(7));
+        return ResponseEntity.ok().body("success");
+    }
 
 }
