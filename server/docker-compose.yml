@@ -9,3 +9,11 @@ services:
       - ./config/:/docker-entrypoint-initdb.d/
     ports:
       - 3307:3306
+  viside-redis:
+    image: redis
+    container_name: viside-redis
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 6379:6379
