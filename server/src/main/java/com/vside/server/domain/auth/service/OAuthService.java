@@ -7,10 +7,19 @@ import com.vside.server.domain.user.Entity.User;
 import com.vside.server.domain.user.dao.UserRepository;
 import com.vside.server.domain.user.dto.JoinRequest;
 import com.vside.server.jwt.TokenProvider;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -19,7 +28,6 @@ public class OAuthService{
 
     private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
-
     public Long join(JoinRequest joinRequest) {
         User user = userRepository.save(joinRequest.toEntity());
         return user.getUserId();
@@ -42,5 +50,10 @@ public class OAuthService{
         }
         userRepository.delete(userRepository.findBySnsId(dto.getSnsId()).get());
         return WithdrawalResponseDtoCode.SUCCESS;
+    }
+
+    @Transactional
+    public void logout_t(String jwt){
+        tokenProvider.logout_token(jwt);
     }
 }
