@@ -79,9 +79,9 @@ public class TokenProvider implements InitializingBean {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        User principal = new User(claims.getSubject(), "", authorities);
+        User user = new User(claims.getSubject(), "", authorities);
 
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        return new UsernamePasswordAuthenticationToken(user.getUsername(), token, authorities);
     }
 
     public boolean validateToken(String token) {
