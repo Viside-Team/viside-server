@@ -16,12 +16,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MyPageController {
 
-    private MyPageService myPageService;
+    private final MyPageService myPageService;
 
     @GetMapping("/profile")
     public ResponseEntity<Map<String, String>> getUserProfile(Principal principal){
-        log.info("id: " + principal.getName()); //userId 표시 O
-        String userName = myPageService.getUsername(principal.getName()); //NPE
+        String userName = myPageService.getUserProfile(principal.getName());
 
         Map<String, String> response = new HashMap<>();
         response.put("username", userName);

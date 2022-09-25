@@ -40,7 +40,6 @@ public class OAuthController {
         if (memStat){
             User user = oAuthService.getExistingUser(loginRequest.getSnsId());
             Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUserId(), null, AuthorityUtils.createAuthorityList("ROLE_USER"));
-            log.info("login authentication: " + String.valueOf(authentication));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.createToken(authentication);
             res.setJwt(jwt);

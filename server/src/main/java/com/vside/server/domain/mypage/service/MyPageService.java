@@ -14,7 +14,8 @@ public class MyPageService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public String getUsername(String id){
+    public String getUserProfile(String id){
+
         Long userId = Long.parseLong(id);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 사용자"));
