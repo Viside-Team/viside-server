@@ -7,19 +7,10 @@ import com.vside.server.domain.user.Entity.User;
 import com.vside.server.domain.user.dao.UserRepository;
 import com.vside.server.domain.user.dto.JoinRequest;
 import com.vside.server.jwt.TokenProvider;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.security.Key;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service

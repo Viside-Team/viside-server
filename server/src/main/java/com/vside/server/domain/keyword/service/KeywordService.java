@@ -1,7 +1,7 @@
 package com.vside.server.domain.keyword.service;
 
 import com.vside.server.domain.content.Entity.ContentKeyword;
-import com.vside.server.domain.content.dao.ContentKeywordReporitory;
+import com.vside.server.domain.content.dao.ContentKeywordRepository;
 import com.vside.server.domain.content.dao.ContentRepository;
 import com.vside.server.domain.keyword.Entity.Category;
 import com.vside.server.domain.keyword.Entity.Keyword;
@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Key;
 import java.util.*;
 
 @Slf4j
@@ -22,8 +21,9 @@ import java.util.*;
 public class KeywordService {
     private final KeywordRepository keywordRepository;
     private final CategoryRepository categoryRepository;
-    private final ContentKeywordReporitory contentKeywordReporitory;
+    private final ContentKeywordRepository contentKeywordReporitory;
     private final ContentRepository contentRepository;
+
     @Transactional(readOnly = true)
     public List<Map<String,List<String>>> getCategoryList(){
         List<Map<String ,List<String>>> categoryKeywordList = new ArrayList<>();
@@ -49,6 +49,7 @@ public class KeywordService {
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getcontentList(KeywordRequest keywordRequest){
         Set<Map<String,Object>> contentSet = new HashSet<>();
+        System.out.println(keywordRequest.getKeywordList());
         for(int i=0;i<keywordRequest.getKeywordList().size();i++){
             String keyword = (String) keywordRequest.getKeywordList().get(i);
             for (int j=0;j<contentKeywordReporitory.findAllByKeyword(keywordRepository.findByKeyword(keyword)).size();j++){
@@ -56,13 +57,20 @@ public class KeywordService {
                 ContentKeyword contentKeyword = contentKeywordReporitory.findAllByKeyword(keywordRepository.findByKeyword(keyword)).get(j);
                 String contentTitle = contentKeyword.getContent().getContentTitle();
                 String contentImg = contentKeyword.getContent().getContentLink();
-                List<String > contentKeywords = new ArrayList<>();
+                String contentMainKeyword = contentRepository.findByContentTitle(contentTitle).getContentMainKeyword();
+                String contentBody = contentRepository.findByContentTitle(contentTitle).getContentBody();
+                Set<String > contentKeywords = new HashSet<>();
                 for (int x=0;x<contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).size();x++) {
                     contentKeywords.add(contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).get(x).getKeyword().getKeyword());
                 }
+                System.out.println(contentKeywords);
+                contentKeywords.remove(contentMainKeyword);
+                System.out.println(contentKeywords);
                 contentInfo.put("title",contentTitle);
                 contentInfo.put("img",contentImg);
+                contentInfo.put("main_Keywords",contentMainKeyword);
                 contentInfo.put("keywords",contentKeywords);
+                contentInfo.put("contentBody",contentBody);
 
                 contentSet.add(contentInfo);
             }

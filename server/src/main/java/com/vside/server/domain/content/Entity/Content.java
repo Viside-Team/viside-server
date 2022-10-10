@@ -22,8 +22,8 @@ public class Content {
     @Column(name = "content_title")
     private String contentTitle;
 
-    @Column(name = "content_content")
-    private String contentContent;
+    @Column(name = "content_body")
+    private String contentBody;
 
     @Column(name = "content_main_keyword")
     private String contentMainKeyword;
@@ -32,11 +32,11 @@ public class Content {
     private List<ContentKeyword> contentKeywords = new ArrayList<>();
 
     @Builder
-    public Content(String contentLink, String contentTitle, String contentMainKeyword, String contentKeyword){
+    public Content(String contentLink, String contentTitle, String contentMainKeyword, String contentBody){
         this.contentLink = contentLink;
         this.contentTitle = contentTitle;
         this.contentMainKeyword = contentMainKeyword;
-
+        this.contentBody = contentBody;
     }
 
 }

@@ -1,12 +1,7 @@
 package com.vside.server.domain.keyword.controller;
 
-import com.vside.server.domain.auth.dto.LoginRequest;
-import com.vside.server.domain.keyword.Entity.Category;
-import com.vside.server.domain.keyword.Entity.Keyword;
 import com.vside.server.domain.keyword.dto.KeywordRequest;
 import com.vside.server.domain.keyword.service.KeywordService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +33,8 @@ public class KeywordController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Map<String,List>> getSearchedContents(@Valid @RequestBody KeywordRequest keywordRequest){
+    public ResponseEntity<Map<String,List>> getSearchedContents(@RequestBody KeywordRequest keywordRequest){
+        System.out.println(keywordRequest.getKeywordList());
         List<Map<String,Object>>contentList = keywordService.getcontentList(keywordRequest);
         Map<String, List> response = new HashMap<>();
         response.put("Contents",contentList);

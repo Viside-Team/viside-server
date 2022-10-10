@@ -1,9 +1,8 @@
-package com.vside.server.domain.keyword.dto;
+package com.vside.server.domain.content.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -13,8 +12,14 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class KeywordRequest {
+
     @NotNull
-    @ApiModelProperty(required = true,example = "검색한 키워드들")
-    private List<String> keywordList;
+    @ApiModelProperty(required = true, example = "카테코리")
+    private String Category;
+
+    @NotNull
+    @ApiModelProperty(required = true, example = "키워드")
+    private List Keyword;
+
 
 }
