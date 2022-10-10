@@ -15,6 +15,7 @@ public class Content {
     @Column(name = "content_id")
     private Long contentId;
 
+    @Lob
     @Column(name = "content_link")
     private String contentLink;
 
@@ -22,6 +23,7 @@ public class Content {
     @Column(name = "content_title")
     private String contentTitle;
 
+    @Lob
     @Column(name = "content_body")
     private String contentBody;
 
