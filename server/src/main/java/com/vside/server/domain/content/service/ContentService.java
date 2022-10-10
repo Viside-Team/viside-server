@@ -33,7 +33,7 @@ public class ContentService {
                 .contentBody(contentRequest.getContentBody())
                 .build();
         contentRepository.save(content);
-
+        contentRequest.getKeywords().add(contentRequest.getMainKeyword());
         for(Object keywordName : contentRequest.getKeywords()){
             Keyword keyword = keywordRepository.findByKeyword((String) keywordName);
             System.out.println(keyword.getKeyword());

@@ -71,7 +71,6 @@ public class KeywordService {
                 contentInfo.put("main_Keywords",contentMainKeyword);
                 contentInfo.put("keywords",contentKeywords);
                 contentInfo.put("contentBody",contentBody);
-
                 contentSet.add(contentInfo);
             }
         }
