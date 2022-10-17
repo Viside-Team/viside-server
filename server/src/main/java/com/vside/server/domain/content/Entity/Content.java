@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,16 +40,25 @@ public class Content {
     @Column(name = "content_image")
     private String imgLink;
 
+    @Column
+    private LocalDateTime uploadDate;
+
     @OneToMany(mappedBy = "content",cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<ContentKeyword> contentKeywords = new ArrayList<>();
 
     @Builder
-    public Content(String contentLink, String contentTitle, String contentMainKeyword, String contentBody, String imgLink){
+    public Content(String contentLink,
+                   String contentTitle,
+                   String contentMainKeyword,
+                   String contentBody,
+                   String imgLink,
+                   LocalDateTime uploadDate){
         this.contentLink = contentLink;
         this.contentTitle = contentTitle;
         this.contentMainKeyword = contentMainKeyword;
         this.contentBody = contentBody;
         this.imgLink = imgLink;
+        this.uploadDate = uploadDate;
     }
 
     public ContentResponse entityToDTO(
