@@ -1,14 +1,19 @@
 package com.vside.server.domain.content.Entity;
 
+import com.vside.server.domain.content.dto.ContentResponse;
+import com.vside.server.domain.keyword.Entity.Keyword;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @NoArgsConstructor(access  = AccessLevel.PROTECTED)
 @Getter
+@ToString
 public class Content {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,15 +35,41 @@ public class Content {
     @Column(name = "content_main_keyword")
     private String contentMainKeyword;
 
+    @Lob
+    @Column(name = "content_image")
+    private String imgLink;
+
     @OneToMany(mappedBy = "content",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ContentKeyword> contentKeywords = new ArrayList<>();
+    private final List<ContentKeyword> contentKeywords = new ArrayList<>();
 
     @Builder
-    public Content(String contentLink, String contentTitle, String contentMainKeyword, String contentBody){
+    public Content(String contentLink, String contentTitle, String contentMainKeyword, String contentBody, String imgLink){
         this.contentLink = contentLink;
         this.contentTitle = contentTitle;
         this.contentMainKeyword = contentMainKeyword;
         this.contentBody = contentBody;
+        this.imgLink = imgLink;
+    }
+
+    public ContentResponse entityToDTO(
+                                Long contentId,
+                                String contentTitle,
+                                String contentMainKeyword,
+                                String imgLink,
+                                List<ContentKeyword> contentKeywords,
+                                boolean isScrap){
+        return ContentResponse.builder()
+                .contentId(contentId)
+                .title(contentTitle)
+                .mainKeyword(contentMainKeyword)
+                .imgUrl(imgLink)
+                .isScrap(isScrap)
+                .keywords(contentKeywords
+                        .stream()
+                        .map(ContentKeyword::getKeyword)
+                        .map(Keyword::getKeyword)
+                        .collect(Collectors.toList()))
+                .build();
     }
 
 }
