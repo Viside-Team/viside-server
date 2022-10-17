@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "content_keyword")
 @Setter
 @Getter
 public class ContentKeyword {
