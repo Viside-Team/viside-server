@@ -2,6 +2,7 @@ package com.vside.server.domain.content.Entity;
 
 import com.vside.server.domain.content.dto.ContentResponse;
 import com.vside.server.domain.keyword.Entity.Keyword;
+import com.vside.server.domain.scrap.dto.ScrapContentsDTO;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,7 +62,7 @@ public class Content {
         this.uploadDate = uploadDate;
     }
 
-    public ContentResponse entityToDTO(
+    public ContentResponse entityToHomeContentDTO(
                                 Long contentId,
                                 String contentTitle,
                                 String contentMainKeyword,
@@ -80,6 +81,27 @@ public class Content {
                         .map(Keyword::getKeyword)
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    public ScrapContentsDTO entityToScrapContentDTO(
+            Long contentId,
+            String contentTitle,
+            String imgLink,
+            List<ContentKeyword> contentKeywords,
+            boolean isScrap
+    ){
+        return ScrapContentsDTO.builder()
+                .contentId(contentId)
+                .title(contentTitle)
+                .imgUrl(imgLink)
+                .keywords(contentKeywords
+                        .stream()
+                        .map(ContentKeyword::getKeyword)
+                        .map(Keyword::getKeyword)
+                        .collect(Collectors.toList()))
+                .isScrap(isScrap)
+                .build();
+
     }
 
 }
