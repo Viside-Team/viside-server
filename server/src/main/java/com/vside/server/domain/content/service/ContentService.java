@@ -72,7 +72,7 @@ public class ContentService {
         List<Content> contentList = contentRepository.findAll();
         return contentList
                 .stream()
-                .map(c -> c.entityToDTO(
+                .map(c -> c.entityToHomeContentDTO(
                         c.getContentId(),
                         c.getContentTitle(),
                         c.getContentMainKeyword(),
