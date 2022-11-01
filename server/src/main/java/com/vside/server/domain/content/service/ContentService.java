@@ -83,4 +83,18 @@ public class ContentService {
                 )
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public ContentResponse getContent(String userId, String title) {
+        Content content = contentRepository.findByContentTitle(title);
+        return content.entityToHomeContentDTO(
+                        content.getContentId(),
+                        content.getContentTitle(),
+                        content.getContentMainKeyword(),
+                        content.getImgLink(),
+                        content.getContentKeywords(),
+                        scrapRepository.existsByContentContentIdAndUserUserId(content.getContentId(), Long.parseLong(userId))
+                );
+
+    }
 }
