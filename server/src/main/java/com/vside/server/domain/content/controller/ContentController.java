@@ -4,12 +4,14 @@ import com.vside.server.domain.content.dto.ContentRequest;
 import com.vside.server.domain.content.dto.ContentResponse;
 import com.vside.server.domain.content.dto.KeywordRequest;
 import com.vside.server.domain.content.service.ContentService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -48,6 +50,13 @@ public class ContentController {
         List<ContentResponse> responseList = contentService.getContentHomeList(principal.getName());
         Map<String, List> response = new HashMap<>();
         response.put("contents", responseList);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/content/{content_title}")
+    @ApiOperation(value = "컨텐츠 상세 페이지")
+    public ResponseEntity<ContentResponse> getContent(@PathVariable String content_title, Principal principal){
+        ContentResponse response = contentService.getContent(principal.getName(),content_title);
         return ResponseEntity.ok().body(response);
     }
 
