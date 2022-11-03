@@ -40,6 +40,7 @@ public class ScrapService {
                         c.getContentKeywords(),
                         true)
                 )
+                .limit(24)
                 .collect(Collectors.toList());
     }
 
