@@ -35,13 +35,13 @@ public class ContentService {
     @Transactional(readOnly = false)
     public Boolean addContent(ContentRequest contentRequest){
         Content content  = Content.builder()
-                .contentTitle(contentRequest.getContentName())
+                .contentTitle(contentRequest.getContentTitle())
                 .contentLink(contentRequest.getContentLink())
-                .contentMainKeyword(contentRequest.getMainKeyword())
+                .contentMainKeyword(contentRequest.getContentMainKeyword())
                 .contentBody(contentRequest.getContentBody())
                 .build();
         contentRepository.save(content);
-        contentRequest.getKeywords().add(contentRequest.getMainKeyword());
+        contentRequest.getKeywords().add(contentRequest.getContentMainKeyword());
         for(Object keywordName : contentRequest.getKeywords()){
             Keyword keyword = keywordRepository.findByKeyword((String) keywordName);
             System.out.println(keyword.getKeyword());
@@ -57,8 +57,10 @@ public class ContentService {
     public Boolean addCategory(KeywordRequest keywordRequest){
         Category category = Category.builder().category(keywordRequest.getCategory()).build();
         for(Object keywordName : keywordRequest.getKeyword()){
-            Keyword keyword = new Keyword((String) keywordName);
-            keywordRepository.save(keyword);
+                Keyword keyword = new Keyword((String) keywordName);
+            if(keywordRepository.findByKeyword((String) keywordName)==null) {
+                keywordRepository.save(keyword);
+            }
             category.addCategory(keyword);
         }
         categoryRepository.save(category);
