@@ -61,12 +61,13 @@ public class ContentService {
             if(!keywordRepository.existsKeywordByKeyword((String) keywordName)) {
                 Keyword keyword = keywordRepository.findByKeyword((String)keywordName);
                 category.addCategory(keyword);
-
+                categoryRepository.save(category);
             }
             else {
                 Keyword keyword = new Keyword((String) keywordName);
                 keywordRepository.save(keyword);
                 category.addCategory(keyword);
+                categoryRepository.save(category);
             }
         }
 
