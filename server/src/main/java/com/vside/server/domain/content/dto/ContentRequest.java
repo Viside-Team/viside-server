@@ -15,11 +15,11 @@ import java.util.List;
 public class ContentRequest {
     @NotNull
     @ApiModelProperty(required = true, example = "제목")
-    private String contentName;
+    private String contentTitle;
 
     @NotNull
     @ApiModelProperty(required = true, example = "메인 키워드")
-    private String mainKeyword;
+    private String contentMainKeyword;
 
     @NotNull
     @ApiModelProperty(required = true, example = "키워드들")
@@ -33,4 +33,7 @@ public class ContentRequest {
     @ApiModelProperty(required = true, example = "이미지")
     private String contentLink;
 
+    @NotNull
+    @ApiModelProperty(required = true, example = "이미지")
+    private String imgLink;
 }
