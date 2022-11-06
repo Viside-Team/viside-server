@@ -57,11 +57,17 @@ public class ContentService {
     public Boolean addCategory(KeywordRequest keywordRequest){
         Category category = Category.builder().category(keywordRequest.getCategory()).build();
         for(Object keywordName : keywordRequest.getKeyword()){
-                Keyword keyword = new Keyword((String) keywordName);
+
             if(!keywordRepository.existsKeywordByKeyword((String) keywordName)) {
-                keywordRepository.save(keyword);
+                Keyword keyword = keywordRepository.findByKeyword((String)keywordName);
+                category.addCategory(keyword);
+
             }
-            category.addCategory(keyword);
+            else {
+                Keyword keyword = new Keyword((String) keywordName);
+                keywordRepository.save(keyword);
+                category.addCategory(keyword);
+            }
         }
         categoryRepository.save(category);
 
