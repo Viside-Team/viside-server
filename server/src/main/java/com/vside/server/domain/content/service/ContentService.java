@@ -69,7 +69,6 @@ public class ContentService {
                 category.addCategory(keyword);
             }
         }
-        categoryRepository.save(category);
 
         return true;
 
