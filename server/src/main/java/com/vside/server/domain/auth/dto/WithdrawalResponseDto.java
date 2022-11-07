@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class WithdrawalResponseDto {
-    private WithdrawalResponseDtoCode code;
     private String message;
 }
