@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class WithdrawalResponseDto {
+public class LogoutResponseDto {
     private String message;
 }

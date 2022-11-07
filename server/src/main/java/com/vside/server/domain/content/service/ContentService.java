@@ -39,6 +39,7 @@ public class ContentService {
                 .contentLink(contentRequest.getContentLink())
                 .contentMainKeyword(contentRequest.getContentMainKeyword())
                 .contentBody(contentRequest.getContentBody())
+                .imgLink(contentRequest.getImgLink())
                 .build();
         contentRepository.save(content);
         contentRequest.getKeywords().add(contentRequest.getContentMainKeyword());
