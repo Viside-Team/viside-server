@@ -59,7 +59,7 @@ public class ContentService {
         Category category = Category.builder().category(keywordRequest.getCategory()).build();
         for(Object keywordName : keywordRequest.getKeyword()){
 
-            if(!keywordRepository.existsKeywordByKeyword((String) keywordName)) {
+            if(keywordRepository.existsKeywordByKeyword((String) keywordName)) {
                 Keyword keyword = keywordRepository.findByKeyword((String)keywordName);
                 category.addCategory(keyword);
                 categoryRepository.save(category);
