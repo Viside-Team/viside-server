@@ -61,7 +61,6 @@ public class OAuthController {
     public ResponseEntity<WithdrawalResponseDto> withdrawal(@Valid @RequestBody WithdrawalRequestDto dto){
         WithdrawalResponseDtoCode responseCode = oAuthService.delExistingUser(dto);
         WithdrawalResponseDto response = WithdrawalResponseDto.builder()
-                .code(responseCode)
                 .message(responseCode.name().toLowerCase())
                 .build();
 
@@ -71,10 +70,12 @@ public class OAuthController {
 
     @DeleteMapping("/logout1")
     @ApiOperation(value = "로그아웃", notes = "로그아웃 성공 실패 여부 반환")
-    public ResponseEntity<String> out(HttpServletRequest req){
+    public ResponseEntity<LogoutResponseDto> out(HttpServletRequest req){
         String token = req.getHeader("Authorization");
         oAuthService.logout_t(token.substring(7));
-        return ResponseEntity.ok().body("success");
+        LogoutResponseDto logoutResponseDto = LogoutResponseDto.builder()
+                .message("success")
+                .build();
+        return ResponseEntity.ok().body(logoutResponseDto);
     }
-
 }
