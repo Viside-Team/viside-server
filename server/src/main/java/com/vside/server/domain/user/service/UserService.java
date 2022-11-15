@@ -16,7 +16,10 @@ public class UserService {
     UserRepository userRepository;
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public boolean exists(String name) {
-        return userRepository.existsUserByUserName(name);
+        if(userRepository.findByUserName(name).isEmpty()){
+            return false;
+        }
+        return true;
     }
 
 }
