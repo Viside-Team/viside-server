@@ -56,7 +56,13 @@ public class ContentService {
 
     @Transactional(readOnly = false)
     public Boolean addCategory(KeywordRequest keywordRequest){
-        Category category = Category.builder().category(keywordRequest.getCategory()).build();
+        Category category ;
+        if(categoryRepository.existsCategoryByCategory(keywordRequest.getCategory())){
+            category = categoryRepository.findByCategory(keywordRequest.getCategory());
+        }
+        else {
+            category = Category.builder().category(keywordRequest.getCategory()).build();
+        }
         for(Object keywordName : keywordRequest.getKeyword()){
 
             if(keywordRepository.existsKeywordByKeyword((String) keywordName)) {
