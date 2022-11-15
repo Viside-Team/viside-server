@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findOneBySnsId(String snsId);
+    Optional<User> findByUserName(String userName);
     long countByLoginTypeAndSnsId(LoginType loginType, String snsId);
     Optional<User> findBySnsId(String id);
 }
