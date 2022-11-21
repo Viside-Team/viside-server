@@ -6,6 +6,7 @@ import com.vside.server.domain.content.dao.ContentKeywordRepository;
 import com.vside.server.domain.content.dao.ContentRepository;
 import com.vside.server.domain.content.dto.ContentRequest;
 import com.vside.server.domain.content.dto.ContentResponse;
+import com.vside.server.domain.content.dto.HomeContentResponse;
 import com.vside.server.domain.content.dto.KeywordRequest;
 import com.vside.server.domain.keyword.Entity.Category;
 import com.vside.server.domain.keyword.Entity.Keyword;
@@ -83,7 +84,7 @@ public class ContentService {
     }
 
     @Transactional(readOnly = true)
-    public List<ContentResponse> getContentHomeList(String userId) {
+    public List<HomeContentResponse> getContentHomeList(String userId) {
         List<Content> contentList = contentRepository.findAll();
         return contentList
                 .stream()
@@ -93,7 +94,8 @@ public class ContentService {
                         c.getContentMainKeyword(),
                         c.getImgLink(),
                         c.getContentKeywords(),
-                        scrapRepository.existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
+                        scrapRepository.existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId)),
+                        c.getColor()
                      )
                 )
                 .collect(Collectors.toList());
@@ -102,7 +104,7 @@ public class ContentService {
     @Transactional(readOnly = true)
     public ContentResponse getContent(String userId, String title) {
         Content content = contentRepository.findByContentTitle(title);
-        return content.entityToHomeContentDTO(
+        return content.entityToContentDTO(
                         content.getContentId(),
                         content.getContentTitle(),
                         content.getContentMainKeyword(),

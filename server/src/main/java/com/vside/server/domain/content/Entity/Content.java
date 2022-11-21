@@ -1,6 +1,7 @@
 package com.vside.server.domain.content.Entity;
 
 import com.vside.server.domain.content.dto.ContentResponse;
+import com.vside.server.domain.content.dto.HomeContentResponse;
 import com.vside.server.domain.keyword.Entity.Keyword;
 import com.vside.server.domain.scrap.dto.ScrapContentsDTO;
 import lombok.*;
@@ -44,6 +45,9 @@ public class Content {
     @Column
     private LocalDateTime uploadDate;
 
+    @Embedded
+    private Color color;
+
     @OneToMany(mappedBy = "content",cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<ContentKeyword> contentKeywords = new ArrayList<>();
 
@@ -53,22 +57,50 @@ public class Content {
                    String contentMainKeyword,
                    String contentBody,
                    String imgLink,
-                   LocalDateTime uploadDate){
+                   LocalDateTime uploadDate,
+                   Color color){
         this.contentLink = contentLink;
         this.contentTitle = contentTitle;
         this.contentMainKeyword = contentMainKeyword;
         this.contentBody = contentBody;
         this.imgLink = imgLink;
         this.uploadDate = uploadDate;
+        this.color = color;
     }
 
-    public ContentResponse entityToHomeContentDTO(
+    // 홈 컨텐츠 리스트 mapper
+    public HomeContentResponse entityToHomeContentDTO(
                                 Long contentId,
                                 String contentTitle,
                                 String contentMainKeyword,
                                 String imgLink,
                                 List<ContentKeyword> contentKeywords,
-                                boolean isScrap){
+                                boolean isScrap,
+                                Color color){
+        return HomeContentResponse.builder()
+                .contentId(contentId)
+                .title(contentTitle)
+                .mainKeyword(contentMainKeyword)
+                .imgUrl(imgLink)
+                .isScrap(isScrap)
+                .keywords(contentKeywords
+                        .stream()
+                        .map(ContentKeyword::getKeyword)
+                        .map(Keyword::getKeyword)
+                        .collect(Collectors.toList()))
+                .lighterColor(color.getLighterColor())
+                .darkerColor(color.getDarkerColor())
+                .build();
+    }
+
+    // 상세페이지 mapper
+    public ContentResponse entityToContentDTO(
+            Long contentId,
+            String contentTitle,
+            String contentMainKeyword,
+            String imgLink,
+            List<ContentKeyword> contentKeywords,
+            boolean isScrap) {
         return ContentResponse.builder()
                 .contentId(contentId)
                 .title(contentTitle)
@@ -81,6 +113,7 @@ public class Content {
                         .map(Keyword::getKeyword)
                         .collect(Collectors.toList()))
                 .build();
+
     }
 
     public ScrapContentsDTO entityToScrapContentDTO(
@@ -103,5 +136,4 @@ public class Content {
                 .build();
 
     }
-
 }
