@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Key;
 import java.util.*;
 
 @Slf4j
@@ -49,6 +50,12 @@ public class KeywordService {
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getcontentList(KeywordRequest keywordRequest){
         Set<Map<String,Object>> contentSet = new HashSet<>();
+        if(keywordRequest.getKeywordList().size()==0){
+            List<Keyword> keywordList = keywordRepository.findAll();
+            for(int keywordIndex =0;keywordIndex<keywordList.size();keywordIndex++){
+                keywordRequest.getKeywordList().add(keywordList.get(keywordIndex).getKeyword());
+            }
+        }
         System.out.println(keywordRequest.getKeywordList());
         for(int i=0;i<keywordRequest.getKeywordList().size();i++){
             String keyword = (String) keywordRequest.getKeywordList().get(i);
