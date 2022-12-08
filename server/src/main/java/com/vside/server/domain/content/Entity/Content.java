@@ -53,6 +53,14 @@ public class Content {
     @Column
     private boolean isBrightBg;
 
+    @Lob
+    @Column(name = "lighterColor")
+    private String lighterColor;
+
+    @Lob
+    @Column(name = "darkerColor")
+    private String darkerColor;
+
     @OneToMany(mappedBy = "content",cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<ContentKeyword> contentKeywords = new ArrayList<>();
 
@@ -63,7 +71,8 @@ public class Content {
                    String contentBody,
                    String imgLink,
                    String coverImgUrl,
-                   boolean isBrightBg,
+                   String lighterColor,
+                   String darkerColor,
                    LocalDateTime uploadDate){
         this.contentLink = contentLink;
         this.contentTitle = contentTitle;
@@ -72,7 +81,8 @@ public class Content {
         this.imgLink = imgLink;
         this.uploadDate = uploadDate;
         this.coverImgUrl = coverImgUrl;
-        this.isBrightBg = isBrightBg;
+        this.darkerColor = darkerColor;
+        this.lighterColor = lighterColor;
     }
 
     public void setBrightBg(String brightBg) {
@@ -81,19 +91,23 @@ public class Content {
     }
 
     public ContentResponse entityToHomeContentDTO(
-                                Long contentId,
-                                String contentTitle,
-                                String contentMainKeyword,
-                                String imgLink,
-                                List<ContentKeyword> contentKeywords,
-                                boolean isScrap
-                                ){
+            Long contentId,
+            String contentTitle,
+            String contentMainKeyword,
+            String imgLink,
+            List<ContentKeyword> contentKeywords,
+            String lighterColor,
+            String darkerColor,
+            boolean isScrap
+    ){
         return ContentResponse.builder()
                 .contentId(contentId)
                 .title(contentTitle)
                 .mainKeyword(contentMainKeyword)
                 .imgUrl(imgLink)
                 .isScrap(isScrap)
+                .darkerColor(darkerColor)
+                .lighterColor(lighterColor)
                 .keywords(contentKeywords
                         .stream()
                         .map(ContentKeyword::getKeyword)
@@ -109,7 +123,7 @@ public class Content {
             List<ContentKeyword> contentKeywords,
             boolean isBrightBg,
             boolean isScrap
-            ){
+    ){
         return ContentPageResponse.builder()
                 .contentId(contentId)
                 .title(contentTitle)

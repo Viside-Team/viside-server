@@ -44,4 +44,8 @@ public class ContentRequest {
     @NotNull
     private String isBrightBg;
 
+    @NotNull
+    private String lighterColor;
+    @NotNull
+    private String darkerColor;
 }

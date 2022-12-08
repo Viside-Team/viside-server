@@ -1,11 +1,8 @@
 package com.vside.server.domain.content.dto;
 
+import lombok.*;
+
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -19,4 +16,6 @@ public class ContentResponse {
     private String mainKeyword;
     private List<String> keywords;
     private boolean isScrap;
+    private String lighterColor;
+    private String darkerColor;
 }
