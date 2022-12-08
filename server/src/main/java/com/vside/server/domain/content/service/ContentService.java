@@ -42,7 +42,8 @@ public class ContentService {
                 .contentBody(contentRequest.getContentBody())
                 .imgLink(contentRequest.getImgLink())
                 .coverImgUrl(contentRequest.getCoverImgLink())
-//                .isBrightBg(contentRequest.isBrightBg())
+                .lighterColor(contentRequest.getLighterColor())
+                .darkerColor(contentRequest.getDarkerColor())
                 .build();
         content.setBrightBg(contentRequest.getIsBrightBg());
         System.out.println(content.isBrightBg());
@@ -93,13 +94,15 @@ public class ContentService {
         return contentList
                 .stream()
                 .map(c -> c.entityToHomeContentDTO(
-                        c.getContentId(),
-                        c.getContentTitle(),
-                        c.getContentMainKeyword(),
-                        c.getCoverImgUrl(),
-                        c.getContentKeywords(),
-                        scrapRepository.existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
-                     )
+                                c.getContentId(),
+                                c.getContentTitle(),
+                                c.getContentMainKeyword(),
+                                c.getCoverImgUrl(),
+                                c.getContentKeywords(),
+                                c.getLighterColor(),
+                                c.getDarkerColor(),
+                                scrapRepository.existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
+                        )
                 )
                 .collect(Collectors.toList());
     }
