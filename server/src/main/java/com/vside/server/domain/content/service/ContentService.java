@@ -116,6 +116,7 @@ public class ContentService {
                 content.getContentMainKeyword(),
                 content.getImgLink(),
                 content.getContentKeywords(),
+                content.getContentLink(),
                 content.isBrightBg(),
                 scrapRepository.existsByContentContentIdAndUserUserId(content.getContentId(), Long.parseLong(userId))
         );

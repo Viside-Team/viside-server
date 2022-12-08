@@ -22,10 +22,10 @@ import java.time.Duration;
 @EnableRedisRepositories
 public class RedisConfig {
 
-    @Value("${spring.redis.host}")
+    @Value("127.0.0.1")
     private String redisHost;
 
-    @Value("${spring.redis.port}")
+    @Value("6379")
     private int redisPort;
 
     @Bean
@@ -41,3 +41,12 @@ public class RedisConfig {
     }
 
 }
+//        LettuceClientConfiguration lettuceClientConfiguration = LettuceClientConfiguration.builder()
+//                .commandTimeout(Duration.ofMinutes(1))
+//                .shutdownTimeout(Duration.ZERO)
+//                .build();
+//        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisHost, redisPort);
+//        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisStandaloneConfiguration);
+//        factory.setTimeout(1000); // 이부분으로 millisecond 단위 (1000ms = 1s)
+//        return factory;
+//        return new LettuceConnectionFactory(redisStandaloneConfiguration, lettuceClientConfiguration);
