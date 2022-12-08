@@ -30,10 +30,18 @@ public class ContentRequest {
     private String contentBody;
 
     @NotNull
-    @ApiModelProperty(required = true, example = "이미지")
+    @ApiModelProperty(required = true, example = "컨텐츠 이미지")
     private String contentLink;
 
     @NotNull
     @ApiModelProperty(required = true, example = "이미지")
     private String imgLink;
+
+    @NotNull
+    @ApiModelProperty(required = true, example = "커버이미지")
+    private String coverImgLink;
+
+    @NotNull
+    private String isBrightBg;
+
 }
