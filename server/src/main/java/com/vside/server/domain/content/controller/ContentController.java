@@ -3,6 +3,7 @@ package com.vside.server.domain.content.controller;
 import com.vside.server.domain.content.dto.ContentPageResponse;
 import com.vside.server.domain.content.dto.ContentRequest;
 import com.vside.server.domain.content.dto.ContentResponse;
+import com.vside.server.domain.content.dto.HomeContentResponse;
 import com.vside.server.domain.content.dto.KeywordRequest;
 import com.vside.server.domain.content.service.ContentService;
 import io.swagger.annotations.Api;
@@ -45,7 +46,7 @@ public class ContentController {
     @GetMapping("/homelist")
     @ApiOperation(value = "메인 홈 화면 컨텐츠 리스트 표출")
     public ResponseEntity<Map<String, List>> getContentsList(Principal principal){
-        List<ContentResponse> responseList = contentService.getContentHomeList(principal.getName());
+        List<HomeContentResponse> responseList = contentService.getContentHomeList(principal.getName());
         Map<String, List> response = new HashMap<>();
         response.put("contents", responseList);
         return ResponseEntity.ok().body(response);
