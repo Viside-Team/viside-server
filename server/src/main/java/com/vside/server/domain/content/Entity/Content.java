@@ -1,5 +1,6 @@
 package com.vside.server.domain.content.Entity;
 
+import com.vside.server.domain.content.dto.ContentPageResponse;
 import com.vside.server.domain.content.dto.ContentResponse;
 import com.vside.server.domain.keyword.Entity.Keyword;
 import com.vside.server.domain.scrap.dto.ScrapContentsDTO;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -44,6 +46,13 @@ public class Content {
     @Column
     private LocalDateTime uploadDate;
 
+    @Lob
+    @Column(name = "comtent_cover_image")
+    private String coverImgUrl;
+
+    @Column
+    private boolean isBrightBg;
+
     @OneToMany(mappedBy = "content",cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<ContentKeyword> contentKeywords = new ArrayList<>();
 
@@ -53,6 +62,8 @@ public class Content {
                    String contentMainKeyword,
                    String contentBody,
                    String imgLink,
+                   String coverImgUrl,
+                   boolean isBrightBg,
                    LocalDateTime uploadDate){
         this.contentLink = contentLink;
         this.contentTitle = contentTitle;
@@ -60,6 +71,13 @@ public class Content {
         this.contentBody = contentBody;
         this.imgLink = imgLink;
         this.uploadDate = uploadDate;
+        this.coverImgUrl = coverImgUrl;
+        this.isBrightBg = isBrightBg;
+    }
+
+    public void setBrightBg(String brightBg) {
+        System.out.println(brightBg);
+        this.isBrightBg = Objects.equals(brightBg, "true");
     }
 
     public ContentResponse entityToHomeContentDTO(
@@ -68,7 +86,8 @@ public class Content {
                                 String contentMainKeyword,
                                 String imgLink,
                                 List<ContentKeyword> contentKeywords,
-                                boolean isScrap){
+                                boolean isScrap
+                                ){
         return ContentResponse.builder()
                 .contentId(contentId)
                 .title(contentTitle)
@@ -82,7 +101,29 @@ public class Content {
                         .collect(Collectors.toList()))
                 .build();
     }
-
+    public ContentPageResponse entityToContentPageDTO(
+            Long contentId,
+            String contentTitle,
+            String contentMainKeyword,
+            String imgUrl,
+            List<ContentKeyword> contentKeywords,
+            boolean isBrightBg,
+            boolean isScrap
+            ){
+        return ContentPageResponse.builder()
+                .contentId(contentId)
+                .title(contentTitle)
+                .mainKeyword(contentMainKeyword)
+                .imgUrl(imgUrl)
+                .isScrap(isScrap)
+                .isBrightBg(isBrightBg)
+                .keywords(contentKeywords
+                        .stream()
+                        .map(ContentKeyword::getKeyword)
+                        .map(Keyword::getKeyword)
+                        .collect(Collectors.toList()))
+                .build();
+    }
     public ScrapContentsDTO entityToScrapContentDTO(
             Long contentId,
             String contentTitle,
