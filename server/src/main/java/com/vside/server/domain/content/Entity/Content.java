@@ -104,7 +104,7 @@ public class Content {
                 .contentId(contentId)
                 .title(contentTitle)
                 .mainKeyword(contentMainKeyword)
-                .imgUrl(imgLink)
+                .coverImgUrl(imgLink)
                 .isScrap(isScrap)
                 .darkerColor(darkerColor)
                 .lighterColor(lighterColor)
