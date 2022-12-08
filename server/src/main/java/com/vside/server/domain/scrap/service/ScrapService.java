@@ -36,7 +36,7 @@ public class ScrapService {
                 .map(c -> c.entityToScrapContentDTO(
                         c.getContentId(),
                         c.getContentTitle(),
-                        c.getContentLink(),
+                        c.getCoverImgUrl(),
                         c.getContentKeywords(),
                         true)
                 )
