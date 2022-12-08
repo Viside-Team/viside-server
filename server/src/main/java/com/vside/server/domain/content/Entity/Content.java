@@ -148,7 +148,7 @@ public class Content {
         return ScrapContentsDTO.builder()
                 .contentId(contentId)
                 .title(contentTitle)
-                .imgUrl(imgLink)
+                .coverImgUrl(imgLink)
                 .keywords(contentKeywords
                         .stream()
                         .map(ContentKeyword::getKeyword)
