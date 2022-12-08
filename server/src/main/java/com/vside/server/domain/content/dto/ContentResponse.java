@@ -12,7 +12,7 @@ import java.util.List;
 public class ContentResponse {
     private Long contentId;
     private String title;
-    private String imgUrl;
+    private String coverImgUrl;
     private String mainKeyword;
     private List<String> keywords;
     private boolean isScrap;
