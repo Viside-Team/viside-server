@@ -121,6 +121,7 @@ public class Content {
             String contentMainKeyword,
             String imgUrl,
             List<ContentKeyword> contentKeywords,
+            String contentLink,
             boolean isBrightBg,
             boolean isScrap
     ){
@@ -128,9 +129,10 @@ public class Content {
                 .contentId(contentId)
                 .title(contentTitle)
                 .mainKeyword(contentMainKeyword)
-                .imgUrl(imgUrl)
+                .contentImgUrl(imgUrl)
                 .isScrap(isScrap)
                 .isBrightBg(isBrightBg)
+                .contentLink(contentLink)
                 .keywords(contentKeywords
                         .stream()
                         .map(ContentKeyword::getKeyword)
