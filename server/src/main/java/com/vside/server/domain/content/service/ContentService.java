@@ -4,9 +4,9 @@ import com.vside.server.domain.content.Entity.Content;
 import com.vside.server.domain.content.Entity.ContentKeyword;
 import com.vside.server.domain.content.dao.ContentKeywordRepository;
 import com.vside.server.domain.content.dao.ContentRepository;
+import com.vside.server.domain.content.dto.ContentPageResponse;
 import com.vside.server.domain.content.dto.ContentRequest;
 import com.vside.server.domain.content.dto.ContentResponse;
-import com.vside.server.domain.content.dto.HomeContentResponse;
 import com.vside.server.domain.content.dto.KeywordRequest;
 import com.vside.server.domain.keyword.Entity.Category;
 import com.vside.server.domain.keyword.Entity.Keyword;
@@ -41,7 +41,11 @@ public class ContentService {
                 .contentMainKeyword(contentRequest.getContentMainKeyword())
                 .contentBody(contentRequest.getContentBody())
                 .imgLink(contentRequest.getImgLink())
+                .coverImgUrl(contentRequest.getCoverImgLink())
+//                .isBrightBg(contentRequest.isBrightBg())
                 .build();
+        content.setBrightBg(contentRequest.getIsBrightBg());
+        System.out.println(content.isBrightBg());
         contentRepository.save(content);
         contentRequest.getKeywords().add(contentRequest.getContentMainKeyword());
         for(Object keywordName : contentRequest.getKeywords()){
@@ -84,7 +88,7 @@ public class ContentService {
     }
 
     @Transactional(readOnly = true)
-    public List<HomeContentResponse> getContentHomeList(String userId) {
+    public List<ContentResponse> getContentHomeList(String userId) {
         List<Content> contentList = contentRepository.findAll();
         return contentList
                 .stream()
@@ -92,26 +96,25 @@ public class ContentService {
                         c.getContentId(),
                         c.getContentTitle(),
                         c.getContentMainKeyword(),
-                        c.getImgLink(),
+                        c.getCoverImgUrl(),
                         c.getContentKeywords(),
-                        scrapRepository.existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId)),
-                        c.getColor()
+                        scrapRepository.existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
                      )
                 )
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public ContentResponse getContent(String userId, String title) {
-        Content content = contentRepository.findByContentTitle(title);
-        return content.entityToContentDTO(
-                        content.getContentId(),
-                        content.getContentTitle(),
-                        content.getContentMainKeyword(),
-                        content.getImgLink(),
-                        content.getContentKeywords(),
-                        scrapRepository.existsByContentContentIdAndUserUserId(content.getContentId(), Long.parseLong(userId))
-                );
-
+    public ContentPageResponse getContent(String userId, Long contentId) {
+        Content content = contentRepository.findByContentId(contentId);
+        return content.entityToContentPageDTO(
+                content.getContentId(),
+                content.getContentTitle(),
+                content.getContentMainKeyword(),
+                content.getImgLink(),
+                content.getContentKeywords(),
+                content.isBrightBg(),
+                scrapRepository.existsByContentContentIdAndUserUserId(content.getContentId(), Long.parseLong(userId))
+        );
     }
 }

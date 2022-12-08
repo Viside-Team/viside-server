@@ -1,5 +1,6 @@
 package com.vside.server.domain.content.controller;
 
+import com.vside.server.domain.content.dto.ContentPageResponse;
 import com.vside.server.domain.content.dto.ContentRequest;
 import com.vside.server.domain.content.dto.ContentResponse;
 import com.vside.server.domain.content.dto.HomeContentResponse;
@@ -32,17 +33,14 @@ public class ContentController {
     @PostMapping("/addContent")
     @ApiOperation(value = "content Add", notes = "컨텐츠 자료 넣기")
     public ResponseEntity<Boolean> addContent( @RequestBody ContentRequest contentRequest){
+        System.out.println(contentRequest.getIsBrightBg());
         return ResponseEntity.ok().body(contentService.addContent(contentRequest));
     }
 
     @PostMapping("/addCategory")
     @ApiOperation(value = "Category Add", notes = "카테고리 자료 넣기")
     public ResponseEntity<Boolean> addCategory( @RequestBody KeywordRequest keywordRequest){
-        System.out.println(keywordRequest.getKeyword());
-        System.out.println(keywordRequest.getCategory());
-
         return ResponseEntity.ok().body(contentService.addCategory(keywordRequest));
-
     }
 
     @GetMapping("/homelist")
@@ -54,10 +52,10 @@ public class ContentController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/content/{content_title}")
+    @GetMapping("/content/{content_Id}")
     @ApiOperation(value = "컨텐츠 상세 페이지")
-    public ResponseEntity<ContentResponse> getContent(@PathVariable String content_title, Principal principal){
-        ContentResponse response = contentService.getContent(principal.getName(),content_title);
+    public ResponseEntity<ContentPageResponse> getContent(@PathVariable Long content_Id, Principal principal){
+        ContentPageResponse response = contentService.getContent(principal.getName(),content_Id);
         return ResponseEntity.ok().body(response);
     }
 

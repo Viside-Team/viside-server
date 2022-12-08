@@ -62,8 +62,9 @@ public class KeywordService {
             for (int j=0;j<contentKeywordReporitory.findAllByKeyword(keywordRepository.findByKeyword(keyword)).size();j++){
                 Map<String,Object> contentInfo = new HashMap<>();
                 ContentKeyword contentKeyword = contentKeywordReporitory.findAllByKeyword(keywordRepository.findByKeyword(keyword)).get(j);
+                Long contentId = contentKeyword.getContent().getContentId();
                 String contentTitle = contentKeyword.getContent().getContentTitle();
-                String contentImg = contentKeyword.getContent().getContentLink();
+                String contentImg = contentKeyword.getContent().getCoverImgUrl();
                 String contentMainKeyword = contentRepository.findByContentTitle(contentTitle).getContentMainKeyword();
                 String contentBody = contentRepository.findByContentTitle(contentTitle).getContentBody();
                 Set<String > contentKeywords = new HashSet<>();
@@ -73,8 +74,9 @@ public class KeywordService {
                 System.out.println(contentKeywords);
                 contentKeywords.remove(contentMainKeyword);
                 System.out.println(contentKeywords);
+                contentInfo.put("contentId",contentId);
                 contentInfo.put("title",contentTitle);
-                contentInfo.put("img",contentImg);
+                contentInfo.put("coverImg",contentImg);
                 contentInfo.put("main_Keywords",contentMainKeyword);
                 contentInfo.put("keywords",contentKeywords);
                 contentInfo.put("contentBody",contentBody);

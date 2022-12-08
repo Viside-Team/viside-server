@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ContentRepository extends JpaRepository<Content,Long> {
     Content findByContentTitle(String content_title);
+    Content findByContentId(Long content_id);
 }
