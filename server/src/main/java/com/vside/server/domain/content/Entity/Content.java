@@ -145,6 +145,7 @@ public class Content {
     public ScrapContentsDTO entityToScrapContentDTO(
             Long contentId,
             String contentTitle,
+            String contentLink,
             String imgLink,
             List<ContentKeyword> contentKeywords,
             boolean isScrap
@@ -152,6 +153,7 @@ public class Content {
         return ScrapContentsDTO.builder()
                 .contentId(contentId)
                 .title(contentTitle)
+                .contentLink(contentLink)
                 .coverImgUrl(imgLink)
                 .keywords(contentKeywords
                         .stream()
