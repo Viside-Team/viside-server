@@ -96,6 +96,7 @@ public class ContentService {
                 .map(c -> c.entityToHomeContentDTO(
                                 c.getContentId(),
                                 c.getContentTitle(),
+                                c.getContentLink(),
                                 c.getContentMainKeyword(),
                                 c.getCoverImgUrl(),
                                 c.getContentKeywords(),

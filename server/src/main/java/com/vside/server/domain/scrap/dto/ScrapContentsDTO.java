@@ -13,6 +13,7 @@ public class ScrapContentsDTO {
 
     private Long contentId;
     private String title;
+    private String contentLink;
     private String coverImgUrl;
     private List<String> keywords;
     private boolean isScrap;

@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.util.List;
 
