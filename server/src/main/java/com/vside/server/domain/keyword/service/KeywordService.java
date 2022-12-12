@@ -67,6 +67,7 @@ public class KeywordService {
                 String contentImg = contentKeyword.getContent().getCoverImgUrl();
                 String contentMainKeyword = contentRepository.findByContentTitle(contentTitle).getContentMainKeyword();
                 String contentBody = contentRepository.findByContentTitle(contentTitle).getContentBody();
+                String contentLink = contentRepository.findByContentTitle(contentTitle).getContentLink();
                 Set<String > contentKeywords = new HashSet<>();
                 for (int x=0;x<contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).size();x++) {
                     contentKeywords.add(contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).get(x).getKeyword().getKeyword());
@@ -80,6 +81,8 @@ public class KeywordService {
                 contentInfo.put("main_Keywords",contentMainKeyword);
                 contentInfo.put("keywords",contentKeywords);
                 contentInfo.put("contentBody",contentBody);
+                contentInfo.put("contentLink",contentLink);
+
                 contentSet.add(contentInfo);
             }
         }
