@@ -33,9 +33,9 @@ public class KeywordController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Map<String,List>> getSearchedContents(@RequestBody KeywordRequest keywordRequest){
+    public ResponseEntity<Map<String,List>> getSearchedContents(@RequestBody KeywordRequest keywordRequest,Principal principal){
         System.out.println(keywordRequest.getKeywordList());
-        List<Map<String,Object>>contentList = keywordService.getcontentList(keywordRequest);
+        List<Map<String,Object>>contentList = keywordService.getcontentList(keywordRequest,principal.getName());
         Map<String, List> response = new HashMap<>();
         response.put("Contents",contentList);
 
