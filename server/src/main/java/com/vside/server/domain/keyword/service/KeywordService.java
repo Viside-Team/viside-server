@@ -8,6 +8,7 @@ import com.vside.server.domain.keyword.Entity.Keyword;
 import com.vside.server.domain.keyword.dao.CategoryRepository;
 import com.vside.server.domain.keyword.dao.KeywordRepository;
 import com.vside.server.domain.keyword.dto.KeywordRequest;
+import com.vside.server.domain.scrap.dao.ScrapRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class KeywordService {
     private final CategoryRepository categoryRepository;
     private final ContentKeywordRepository contentKeywordReporitory;
     private final ContentRepository contentRepository;
-
+    private final ScrapRepository scrapRepository;
     @Transactional(readOnly = true)
     public List<Map<String,List<String>>> getCategoryList(){
         List<Map<String ,List<String>>> categoryKeywordList = new ArrayList<>();
@@ -48,7 +49,7 @@ public class KeywordService {
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getcontentList(KeywordRequest keywordRequest){
+    public List<Map<String,Object>> getcontentList(KeywordRequest keywordRequest,String userId){
         Set<Map<String,Object>> contentSet = new HashSet<>();
         if(keywordRequest.getKeywordList().size()==0){
             List<Keyword> keywordList = keywordRepository.findAll();
@@ -82,6 +83,7 @@ public class KeywordService {
                 contentInfo.put("keywords",contentKeywords);
                 contentInfo.put("contentBody",contentBody);
                 contentInfo.put("contentLink",contentLink);
+                scrapRepository.existsByContentContentIdAndUserUserId(contentId, Long.parseLong(userId));
 
                 contentSet.add(contentInfo);
             }
