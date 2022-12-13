@@ -83,7 +83,8 @@ public class KeywordService {
                 contentInfo.put("keywords",contentKeywords);
                 contentInfo.put("contentBody",contentBody);
                 contentInfo.put("contentLink",contentLink);
-                scrapRepository.existsByContentContentIdAndUserUserId(contentId, Long.parseLong(userId));
+
+                contentInfo.put("scrap",scrapRepository.existsByContentContentIdAndUserUserId(contentId, Long.parseLong(userId)));
 
                 contentSet.add(contentInfo);
             }
