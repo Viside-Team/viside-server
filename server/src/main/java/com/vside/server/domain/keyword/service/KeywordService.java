@@ -69,6 +69,9 @@ public class KeywordService {
                 String contentMainKeyword = contentRepository.findByContentTitle(contentTitle).getContentMainKeyword();
                 String contentBody = contentRepository.findByContentTitle(contentTitle).getContentBody();
                 String contentLink = contentRepository.findByContentTitle(contentTitle).getContentLink();
+                String contentLighterColor = contentRepository.findByContentTitle(contentTitle).getLighterColor();
+                String contentDarkerColor = contentRepository.findByContentTitle(contentTitle).getDarkerColor();
+
                 Set<String > contentKeywords = new HashSet<>();
                 for (int x=0;x<contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).size();x++) {
                     contentKeywords.add(contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).get(x).getKeyword().getKeyword());
@@ -83,7 +86,8 @@ public class KeywordService {
                 contentInfo.put("keywords",contentKeywords);
                 contentInfo.put("contentBody",contentBody);
                 contentInfo.put("contentLink",contentLink);
-
+                contentInfo.put("lighterColor",contentLighterColor);
+                contentInfo.put("darkerColor",contentDarkerColor);
                 contentInfo.put("scrap",scrapRepository.existsByContentContentIdAndUserUserId(contentId, Long.parseLong(userId)));
 
                 contentSet.add(contentInfo);
