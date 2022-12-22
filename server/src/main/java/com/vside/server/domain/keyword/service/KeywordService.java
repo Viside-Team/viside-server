@@ -81,10 +81,10 @@ public class KeywordService {
                 System.out.println(contentKeywords);
                 contentInfo.put("contentId",contentId);
                 contentInfo.put("title",contentTitle);
-                contentInfo.put("coverImg",contentImg);
+                contentInfo.put("coverImgUrl",contentImg);
                 contentInfo.put("main_Keywords",contentMainKeyword);
                 contentInfo.put("keywords",contentKeywords);
-                contentInfo.put("contentBody",contentBody);
+//                contentInfo.put("contentBody",contentBody);
                 contentInfo.put("contentLink",contentLink);
                 contentInfo.put("lighterColor",contentLighterColor);
                 contentInfo.put("darkerColor",contentDarkerColor);
