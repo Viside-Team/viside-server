@@ -37,7 +37,7 @@ public class KeywordController {
         System.out.println(keywordRequest.getKeywordList());
         List<Map<String,Object>>contentList = keywordService.getcontentList(keywordRequest,principal.getName());
         Map<String, List> response = new HashMap<>();
-        response.put("Contents",contentList);
+        response.put("contents",contentList);
 
         return ResponseEntity.ok().body(response);
     }
