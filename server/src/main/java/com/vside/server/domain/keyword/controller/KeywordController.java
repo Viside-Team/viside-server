@@ -24,7 +24,7 @@ public class KeywordController {
     private final KeywordService keywordService;
 
     @GetMapping("/keywords")
-    public ResponseEntity<Map<String,List>> getKeywordList(Principal principal){
+    public ResponseEntity<Map<String,List>> getKeywordList(){
         List<Map<String ,List<String>>>categoryList =keywordService.getCategoryList();
         Map<String, List> response = new HashMap<>();
         response.put("categories",categoryList);
