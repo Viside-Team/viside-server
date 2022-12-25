@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +28,7 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 public class ContentController {
+    private static final String ANONYMOUS_USER = "NONE";
 
     private final ContentService contentService;
 
@@ -45,7 +48,8 @@ public class ContentController {
     @GetMapping("/homelist")
     @ApiOperation(value = "메인 홈 화면 컨텐츠 리스트 표출")
     public ResponseEntity<Map<String, List>> getContentsList(Principal principal){
-        List<ContentResponse> responseList = contentService.getContentHomeList(principal.getName());
+        String userId = (principal == null) ? ANONYMOUS_USER : principal.getName();
+        List<ContentResponse> responseList = contentService.getContentHomeList(userId);
         Map<String, List> response = new HashMap<>();
         response.put("contents", responseList);
         return ResponseEntity.ok().body(response);

@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ContentService {
+    private static final String ANONYMOUS_USER = "NONE";
 
     private final ContentRepository contentRepository;
     private final ContentKeywordRepository contentKeywordReporitory;
@@ -102,7 +103,8 @@ public class ContentService {
                                 c.getContentKeywords(),
                                 c.getLighterColor(),
                                 c.getDarkerColor(),
-                                scrapRepository.existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
+                        !userId.equals(ANONYMOUS_USER) && scrapRepository
+                                .existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
                         )
                 )
                 .collect(Collectors.toList());
