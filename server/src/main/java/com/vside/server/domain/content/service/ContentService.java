@@ -15,7 +15,6 @@ import com.vside.server.domain.keyword.dao.KeywordRepository;
 import com.vside.server.domain.scrap.dao.ScrapRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ContentService {
+    private static final String ANONYMOUS_USER = "NONE";
 
     private final ContentRepository contentRepository;
     private final ContentKeywordRepository contentKeywordReporitory;
@@ -102,7 +102,8 @@ public class ContentService {
                                 c.getContentKeywords(),
                                 c.getLighterColor(),
                                 c.getDarkerColor(),
-                                scrapRepository.existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
+                        !userId.equals(ANONYMOUS_USER) && scrapRepository
+                                .existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
                         )
                 )
                 .collect(Collectors.toList());
