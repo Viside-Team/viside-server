@@ -65,7 +65,10 @@ public class SecurityConfig {
                 .antMatchers("/keywords").permitAll()
                 .antMatchers("/addCategory").permitAll()
                 .antMatchers("/addContent").permitAll()
+                .antMatchers("/search").hasAnyRole("USER", "ANONYMOUS")
+                .antMatchers("/content/**").hasAnyRole("USER", "ANONYMOUS")
                 .antMatchers("/homelist").hasAnyRole("USER", "ANONYMOUS")
+
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
 
                 .anyRequest().authenticated()
