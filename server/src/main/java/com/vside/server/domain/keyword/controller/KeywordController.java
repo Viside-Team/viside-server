@@ -22,6 +22,7 @@ import java.util.Map;
 public class KeywordController {
 
     private final KeywordService keywordService;
+    private static final String ANONYMOUS_USER = "NONE";
 
     @GetMapping("/keywords")
     public ResponseEntity<Map<String,List>> getKeywordList(){
@@ -35,7 +36,9 @@ public class KeywordController {
     @PostMapping("/search")
     public ResponseEntity<Map<String,List>> getSearchedContents(@RequestBody KeywordRequest keywordRequest,Principal principal){
         System.out.println(keywordRequest.getKeywordList());
-        List<Map<String,Object>>contentList = keywordService.getcontentList(keywordRequest,principal.getName());
+        String userId = (principal == null) ? ANONYMOUS_USER : principal.getName();
+
+        List<Map<String,Object>>contentList = keywordService.getcontentList(keywordRequest,userId);
         Map<String, List> response = new HashMap<>();
         response.put("contents",contentList);
 

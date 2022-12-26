@@ -25,9 +25,7 @@ public class ContentRequest {
     @ApiModelProperty(required = true, example = "키워드들")
     private List<String> keywords;
 
-    @NotNull
-    @ApiModelProperty(required = true, example = "글내용")
-    private String contentBody;
+
 
     @NotNull
     @ApiModelProperty(required = true, example = "컨텐츠 이미지")

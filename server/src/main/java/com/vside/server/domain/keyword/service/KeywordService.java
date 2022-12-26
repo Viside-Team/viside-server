@@ -67,7 +67,6 @@ public class KeywordService {
                 String contentTitle = contentKeyword.getContent().getContentTitle();
                 String contentImg = contentKeyword.getContent().getCoverImgUrl();
                 String contentMainKeyword = contentRepository.findByContentTitle(contentTitle).getContentMainKeyword();
-                String contentBody = contentRepository.findByContentTitle(contentTitle).getContentBody();
                 String contentLink = contentRepository.findByContentTitle(contentTitle).getContentLink();
                 String contentLighterColor = contentRepository.findByContentTitle(contentTitle).getLighterColor();
                 String contentDarkerColor = contentRepository.findByContentTitle(contentTitle).getDarkerColor();
@@ -84,7 +83,6 @@ public class KeywordService {
                 contentInfo.put("coverImgUrl",contentImg);
                 contentInfo.put("main_Keywords",contentMainKeyword);
                 contentInfo.put("keywords",contentKeywords);
-//                contentInfo.put("contentBody",contentBody);
                 contentInfo.put("contentLink",contentLink);
                 contentInfo.put("lighterColor",contentLighterColor);
                 contentInfo.put("darkerColor",contentDarkerColor);

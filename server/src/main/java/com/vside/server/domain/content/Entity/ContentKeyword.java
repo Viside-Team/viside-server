@@ -15,11 +15,11 @@ public class ContentKeyword {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "content_title")
+    @JoinColumn(name = "content_id")
     private Content content;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "keyword")
+    @JoinColumn(name = "keyword_id")
     private Keyword keyword;
 
 

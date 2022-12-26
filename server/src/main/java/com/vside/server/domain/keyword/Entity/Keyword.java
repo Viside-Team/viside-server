@@ -26,10 +26,6 @@ public class Keyword {
     @OneToMany(mappedBy = "keyword",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContentKeyword> contentKeywords = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
-
     @Builder
     public Keyword(String keyword){
         this.keyword = keyword;

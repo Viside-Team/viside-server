@@ -54,7 +54,8 @@ public class ContentController {
     @GetMapping("/content/{content_Id}")
     @ApiOperation(value = "컨텐츠 상세 페이지")
     public ResponseEntity<ContentPageResponse> getContent(@PathVariable Long content_Id, Principal principal){
-        ContentPageResponse response = contentService.getContent(principal.getName(),content_Id);
+        String userId = (principal == null) ? ANONYMOUS_USER : principal.getName();
+        ContentPageResponse response = contentService.getContent(userId,content_Id);
         return ResponseEntity.ok().body(response);
     }
 
