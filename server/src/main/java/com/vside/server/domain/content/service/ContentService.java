@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ContentService {
-    private static final String ANONYMOUS_USER = "NONE";
+    private static final String ANONYMOUS_USER = "-1";
 
     private final ContentRepository contentRepository;
     private final ContentKeywordRepository contentKeywordReporitory;

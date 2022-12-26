@@ -22,7 +22,7 @@ import java.util.Map;
 public class KeywordController {
 
     private final KeywordService keywordService;
-    private static final String ANONYMOUS_USER = "NONE";
+    private static final String ANONYMOUS_USER = "-1";
 
     @GetMapping("/keywords")
     public ResponseEntity<Map<String,List>> getKeywordList(){
