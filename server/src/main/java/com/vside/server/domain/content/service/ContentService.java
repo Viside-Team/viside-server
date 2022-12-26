@@ -39,7 +39,6 @@ public class ContentService {
                 .contentTitle(contentRequest.getContentTitle())
                 .contentLink(contentRequest.getContentLink())
                 .contentMainKeyword(contentRequest.getContentMainKeyword())
-                .contentBody(contentRequest.getContentBody())
                 .imgLink(contentRequest.getImgLink())
                 .coverImgUrl(contentRequest.getCoverImgLink())
                 .lighterColor(contentRequest.getLighterColor())

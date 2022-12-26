@@ -32,10 +32,6 @@ public class Content {
     @Column(name = "content_title")
     private String contentTitle;
 
-    @Lob
-    @Column(name = "content_body")
-    private String contentBody;
-
     @Column(name = "content_main_keyword")
     private String contentMainKeyword;
 
@@ -68,7 +64,6 @@ public class Content {
     public Content(String contentLink,
                    String contentTitle,
                    String contentMainKeyword,
-                   String contentBody,
                    String imgLink,
                    String coverImgUrl,
                    String lighterColor,
@@ -77,7 +72,6 @@ public class Content {
         this.contentLink = contentLink;
         this.contentTitle = contentTitle;
         this.contentMainKeyword = contentMainKeyword;
-        this.contentBody = contentBody;
         this.imgLink = imgLink;
         this.uploadDate = uploadDate;
         this.coverImgUrl = coverImgUrl;
