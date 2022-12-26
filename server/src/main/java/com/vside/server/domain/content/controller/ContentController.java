@@ -24,7 +24,7 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 public class ContentController {
-    private static final String ANONYMOUS_USER = "NONE";
+    private static final String ANONYMOUS_USER = "-1";
 
     private final ContentService contentService;
 
