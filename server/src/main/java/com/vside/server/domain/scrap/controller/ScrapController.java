@@ -26,6 +26,12 @@ public class ScrapController {
     @GetMapping("/contents")
     @ApiOperation(value = "스크랩 컨텐츠 리스트 표출")
     public ResponseEntity<ScrapContentResponse> getScrapContentsList(Principal principal){
+        if (principal == null){
+            return ResponseEntity.ok().body(
+                    new ScrapContentResponse(0, null)
+            );
+        }
+        // 회원인 경우
         String userId = principal.getName();
         int scrapCount = scrapService.getScrapCount(userId);
         List<ScrapContentsDTO> scrapContents = null; // count == 0일 경우 contents는 null
