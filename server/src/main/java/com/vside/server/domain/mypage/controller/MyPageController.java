@@ -15,16 +15,18 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 public class MyPageController {
+    private static final String RESPONSE_FIELD = "username";
+    private static final String ANONYMOUS_USERNAME = "비밀스런 독서가";
 
     private final MyPageService myPageService;
 
     @GetMapping("/profile")
-    public ResponseEntity<Map<String, String>> getUserProfile(Principal principal){
+    public ResponseEntity<Map<String, String>> getUserProfile(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.ok().body(Map.of(RESPONSE_FIELD, ANONYMOUS_USERNAME));
+        }
+
         String userName = myPageService.getUserProfile(principal.getName());
-
-        Map<String, String> response = new HashMap<>();
-        response.put("username", userName);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(Map.of(RESPONSE_FIELD, userName));
     }
 }
