@@ -61,6 +61,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/hello").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/namecheck").permitAll()
                 .antMatchers("/signin").permitAll()
                 .antMatchers("/keywords").permitAll()
                 .antMatchers("/addCategory").permitAll()
