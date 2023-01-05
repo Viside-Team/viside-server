@@ -13,13 +13,10 @@ import javax.transaction.Transactional;
 @Service
 @Slf4j
 public class UserService {
-    UserRepository userRepository;
+    private final UserRepository userRepository;
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public boolean exists(String name) {
-        if(userRepository.findByUserName(name).isEmpty()){
-            return false;
-        }
-        return true;
+        return userRepository.findByUserName(name).isPresent();
     }
 
 }

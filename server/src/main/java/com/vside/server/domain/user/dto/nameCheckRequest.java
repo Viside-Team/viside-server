@@ -1,16 +1,18 @@
 package com.vside.server.domain.user.dto;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-@AllArgsConstructor
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class nameCheckRequest {
 
     @NotNull
-    @ApiModelProperty(required = true, example = "닉네")
-    String name;
+    @ApiModelProperty(required = true, example = "닉네임")
+    private String name;
 }

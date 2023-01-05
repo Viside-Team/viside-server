@@ -17,7 +17,7 @@ import java.security.Principal;
 @RestController
 @Slf4j
 public class UserController {
-    UserService userService;
+    private final UserService userService;
     @PostMapping("/nameCheck")
     @ApiOperation(value = "닉네임 중복 체크 api", notes = "회원가입 성공/실패 여부 반환")
     public ResponseEntity<nameCheckResponse> join(@Valid @RequestBody nameCheckRequest nameCheckRequest){
