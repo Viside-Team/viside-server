@@ -38,6 +38,7 @@ public class ScrapService {
                         c.getContentTitle(),
                         c.getContentLink(),
                         c.getCoverImgUrl(),
+                        c.getImgLink(),
                         c.getContentKeywords(),
                         true)
                 )

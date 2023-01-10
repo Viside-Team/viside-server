@@ -142,6 +142,7 @@ public class Content {
             Long contentId,
             String contentTitle,
             String contentLink,
+            String coverImgUrl,
             String imgLink,
             List<ContentKeyword> contentKeywords,
             boolean isScrap
@@ -150,7 +151,8 @@ public class Content {
                 .contentId(contentId)
                 .title(contentTitle)
                 .contentLink(contentLink)
-                .coverImgUrl(imgLink)
+                .coverImgUrl(coverImgUrl)
+                .contentImgUrl(imgLink)
                 .keywords(contentKeywords
                         .stream()
                         .map(ContentKeyword::getKeyword)
