@@ -98,6 +98,7 @@ public class ContentService {
                                 c.getContentLink(),
                                 c.getContentMainKeyword(),
                                 c.getCoverImgUrl(),
+                                c.getImgLink(),
                                 c.getContentKeywords(),
                                 c.getLighterColor(),
                                 c.getDarkerColor(),

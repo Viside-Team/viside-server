@@ -14,6 +14,7 @@ public class ContentResponse {
     private String title;
     private String contentLink;
     private String coverImgUrl;
+    private String contentImgUrl;
     private String mainKeyword;
     private List<String> keywords;
     private boolean isScrap;

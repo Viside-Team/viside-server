@@ -89,6 +89,7 @@ public class Content {
             String contentTitle,
             String contentLink,
             String contentMainKeyword,
+            String coverImgUrl,
             String imgLink,
             List<ContentKeyword> contentKeywords,
             String lighterColor,
@@ -100,7 +101,8 @@ public class Content {
                 .title(contentTitle)
                 .contentLink(contentLink)
                 .mainKeyword(contentMainKeyword)
-                .coverImgUrl(imgLink)
+                .coverImgUrl(coverImgUrl)
+                .contentImgUrl(imgLink)
                 .isScrap(isScrap)
                 .darkerColor(darkerColor)
                 .lighterColor(lighterColor)
