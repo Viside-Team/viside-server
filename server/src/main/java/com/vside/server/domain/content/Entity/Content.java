@@ -89,6 +89,7 @@ public class Content {
             String contentTitle,
             String contentLink,
             String contentMainKeyword,
+            String coverImgUrl,
             String imgLink,
             List<ContentKeyword> contentKeywords,
             String lighterColor,
@@ -100,7 +101,8 @@ public class Content {
                 .title(contentTitle)
                 .contentLink(contentLink)
                 .mainKeyword(contentMainKeyword)
-                .coverImgUrl(imgLink)
+                .coverImgUrl(coverImgUrl)
+                .contentImgUrl(imgLink)
                 .isScrap(isScrap)
                 .darkerColor(darkerColor)
                 .lighterColor(lighterColor)
@@ -140,6 +142,7 @@ public class Content {
             Long contentId,
             String contentTitle,
             String contentLink,
+            String coverImgUrl,
             String imgLink,
             List<ContentKeyword> contentKeywords,
             boolean isScrap
@@ -148,7 +151,8 @@ public class Content {
                 .contentId(contentId)
                 .title(contentTitle)
                 .contentLink(contentLink)
-                .coverImgUrl(imgLink)
+                .coverImgUrl(coverImgUrl)
+                .contentImgUrl(imgLink)
                 .keywords(contentKeywords
                         .stream()
                         .map(ContentKeyword::getKeyword)
