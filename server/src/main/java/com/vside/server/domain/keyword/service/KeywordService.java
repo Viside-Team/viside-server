@@ -70,7 +70,7 @@ public class KeywordService {
                 String contentLink = contentRepository.findByContentTitle(contentTitle).getContentLink();
                 String contentLighterColor = contentRepository.findByContentTitle(contentTitle).getLighterColor();
                 String contentDarkerColor = contentRepository.findByContentTitle(contentTitle).getDarkerColor();
-
+                String contentImtUrl = contentRepository.findByContentTitle(contentTitle).getImgLink();
                 Set<String > contentKeywords = new HashSet<>();
                 for (int x=0;x<contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).size();x++) {
                     contentKeywords.add(contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).get(x).getKeyword().getKeyword());
@@ -81,6 +81,7 @@ public class KeywordService {
                 contentInfo.put("contentId",contentId);
                 contentInfo.put("title",contentTitle);
                 contentInfo.put("coverImgUrl",contentImg);
+                contentInfo.put("contentImgUrl",contentImtUrl);
                 contentInfo.put("main_Keywords",contentMainKeyword);
                 contentInfo.put("keywords",contentKeywords);
                 contentInfo.put("contentLink",contentLink);
