@@ -121,7 +121,8 @@ public class Content {
             List<ContentKeyword> contentKeywords,
             String contentLink,
             boolean isBrightBg,
-            boolean isScrap
+            boolean isScrap,
+            String localDateTime
     ){
         return ContentPageResponse.builder()
                 .contentId(contentId)
@@ -136,6 +137,7 @@ public class Content {
                         .map(ContentKeyword::getKeyword)
                         .map(Keyword::getKeyword)
                         .collect(Collectors.toList()))
+                .dateTime(localDateTime)
                 .build();
     }
     public ScrapContentsDTO entityToScrapContentDTO(

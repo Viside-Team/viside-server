@@ -2,6 +2,7 @@ package com.vside.server.domain.content.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Getter
 @Setter
@@ -18,5 +19,6 @@ public class ContentPageResponse {
     private String contentLink;
     private boolean isScrap;
     private boolean isBrightBg;
+    private String dateTime;
 
 }

@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,7 @@ public class ContentService {
                 .coverImgUrl(contentRequest.getCoverImgLink())
                 .lighterColor(contentRequest.getLighterColor())
                 .darkerColor(contentRequest.getDarkerColor())
+                .uploadDate(LocalDateTime.now())
                 .build();
         content.setBrightBg(contentRequest.getIsBrightBg());
         System.out.println(content.isBrightBg());
@@ -120,7 +123,8 @@ public class ContentService {
                 content.getContentKeywords(),
                 content.getContentLink(),
                 content.isBrightBg(),
-                scrapRepository.existsByContentContentIdAndUserUserId(content.getContentId(), Long.parseLong(userId))
+                scrapRepository.existsByContentContentIdAndUserUserId(content.getContentId(), Long.parseLong(userId)),
+                content.getUploadDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
     }
 }
