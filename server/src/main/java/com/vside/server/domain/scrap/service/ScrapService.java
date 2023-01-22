@@ -9,6 +9,7 @@ import com.vside.server.domain.scrap.dto.ScrapSuccessResponse;
 import com.vside.server.domain.user.Entity.User;
 import com.vside.server.domain.user.dao.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,13 +25,14 @@ public class ScrapService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public int getScrapCount(String userId){
+    public int getScrapCount(String userId) {
         return scrapRepository.countByUserUserId(Long.parseLong(userId));
     }
 
     @Transactional(readOnly = true)
-    public List<ScrapContentsDTO> getScrapContentList(String userId){
-        List<Content> scrapContents =  scrapRepository.findScrapContentsByUserId(Long.parseLong(userId));
+    public List<ScrapContentsDTO> getScrapContentList(String userId) {
+        List<Content> scrapContents = scrapRepository
+                .findScrapContentsByUserId(Long.parseLong(userId), PageRequest.of(0, 24));
         return scrapContents
                 .stream()
                 .map(c -> c.entityToScrapContentDTO(
@@ -42,25 +44,35 @@ public class ScrapService {
                         c.getContentKeywords(),
                         true)
                 )
-                .limit(24)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public ScrapSuccessResponse scrap(Long contentId, String strUserId){
+    public ScrapSuccessResponse scrap(Long contentId, String strUserId) {
         Content content = contentRepository.findById(contentId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 컨텐츠"));
         User user = userRepository.findById(Long.parseLong(strUserId))
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
 
-        if (! exists(content, user)){
-            Scrap newScrap = new Scrap(content, user);
-            return ScrapSuccessResponse.builder()
-                    .status(scrapRepository.save(newScrap).getScrapId() > 0)
-                    .message("스크랩 성공")
-                    .build();
+        // 해당 조합의 컨텐츠-유저 연결 관계가 없다면 스크랩 수행
+        if (!exists(content, user)) {
+            return postScrap(content, user);
         }
 
+        return deleteScrap(content, user);
+    }
+
+    @Transactional
+    private ScrapSuccessResponse postScrap(Content content, User user) {
+        Scrap newScrap = new Scrap(content, user);
+        return ScrapSuccessResponse.builder()
+                .status(scrapRepository.save(newScrap).getScrapId() > 0)
+                .message("스크랩 성공")
+                .build();
+    }
+
+    @Transactional
+    private ScrapSuccessResponse deleteScrap(Content content, User user) {
         scrapRepository.delete(scrapRepository.findByContentAndUser(content, user));
         return ScrapSuccessResponse.builder()
                 .status(true)
@@ -69,7 +81,7 @@ public class ScrapService {
     }
 
     @Transactional(readOnly = true)
-    private boolean exists(Content content, User user){
+    private boolean exists(Content content, User user) {
         return scrapRepository.existsByContentAndUser(content, user);
     }
 }
