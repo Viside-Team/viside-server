@@ -32,8 +32,9 @@ public class Content {
     @Column(name = "content_title")
     private String contentTitle;
 
-    @Column(name = "content_main_keyword")
-    private String contentMainKeyword;
+    @OneToOne
+    @JoinColumn(name = "keyword")
+    private Keyword contentMainKeyword;
 
     @Lob
     @Column(name = "content_image")
@@ -63,7 +64,7 @@ public class Content {
     @Builder
     public Content(String contentLink,
                    String contentTitle,
-                   String contentMainKeyword,
+                   Keyword contentMainKeyword,
                    String imgLink,
                    String coverImgUrl,
                    String lighterColor,

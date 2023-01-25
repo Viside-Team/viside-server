@@ -1,8 +1,10 @@
 package com.vside.server.domain.keyword.service;
 
+import com.vside.server.domain.content.Entity.Content;
 import com.vside.server.domain.content.Entity.ContentKeyword;
 import com.vside.server.domain.content.dao.ContentKeywordRepository;
 import com.vside.server.domain.content.dao.ContentRepository;
+import com.vside.server.domain.content.dto.ContentResponse;
 import com.vside.server.domain.keyword.Entity.Category;
 import com.vside.server.domain.keyword.Entity.Keyword;
 import com.vside.server.domain.keyword.dao.CategoryRepository;
@@ -16,11 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Key;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class KeywordService {
+    private static final String ANONYMOUS_USER = "-1";
+
     private final KeywordRepository keywordRepository;
     private final CategoryRepository categoryRepository;
     private final ContentKeywordRepository contentKeywordReporitory;
@@ -47,54 +52,43 @@ public class KeywordService {
         }
         return categoryKeywordList;
     }
-
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getcontentList(KeywordRequest keywordRequest,String userId){
-        Set<Map<String,Object>> contentSet = new HashSet<>();
+    public List<ContentResponse> getcontentList(KeywordRequest keywordRequest, String userId){
+//        Set<Content> contentSet = new HashSet<>();
+        List<Content> contentList = new ArrayList<>();
         if(keywordRequest.getKeywordList().size()==0){
             List<Keyword> keywordList = keywordRepository.findAll();
             for(int keywordIndex =0;keywordIndex<keywordList.size();keywordIndex++){
                 keywordRequest.getKeywordList().add(keywordList.get(keywordIndex).getKeyword());
             }
         }
-        System.out.println(keywordRequest.getKeywordList());
         for(int i=0;i<keywordRequest.getKeywordList().size();i++){
-            String keyword = (String) keywordRequest.getKeywordList().get(i);
-            for (int j=0;j<contentKeywordReporitory.findAllByKeyword(keywordRepository.findByKeyword(keyword)).size();j++){
-                Map<String,Object> contentInfo = new HashMap<>();
-                ContentKeyword contentKeyword = contentKeywordReporitory.findAllByKeyword(keywordRepository.findByKeyword(keyword)).get(j);
-                Long contentId = contentKeyword.getContent().getContentId();
-                String contentTitle = contentKeyword.getContent().getContentTitle();
-                String contentImg = contentKeyword.getContent().getCoverImgUrl();
-                String contentMainKeyword = contentRepository.findByContentTitle(contentTitle).getContentMainKeyword();
-                String contentLink = contentRepository.findByContentTitle(contentTitle).getContentLink();
-                String contentLighterColor = contentRepository.findByContentTitle(contentTitle).getLighterColor();
-                String contentDarkerColor = contentRepository.findByContentTitle(contentTitle).getDarkerColor();
-                String contentImtUrl = contentRepository.findByContentTitle(contentTitle).getImgLink();
-                Set<String > contentKeywords = new HashSet<>();
-                for (int x=0;x<contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).size();x++) {
-                    contentKeywords.add(contentKeywordReporitory.findAllByContent(contentRepository.findByContentTitle(contentTitle)).get(x).getKeyword().getKeyword());
-                }
-                System.out.println(contentKeywords);
-                contentKeywords.remove(contentMainKeyword);
-                System.out.println(contentKeywords);
-                contentInfo.put("contentId",contentId);
-                contentInfo.put("title",contentTitle);
-                contentInfo.put("coverImgUrl",contentImg);
-                contentInfo.put("contentImgUrl",contentImtUrl);
-                contentInfo.put("main_Keywords",contentMainKeyword);
-                contentInfo.put("keywords",contentKeywords);
-                contentInfo.put("contentLink",contentLink);
-                contentInfo.put("lighterColor",contentLighterColor);
-                contentInfo.put("darkerColor",contentDarkerColor);
-                contentInfo.put("scrap",scrapRepository.existsByContentContentIdAndUserUserId(contentId, Long.parseLong(userId)));
+            String keywordName = (String) keywordRequest.getKeywordList().get(i);
+            Keyword keyword = keywordRepository.findByKeyword(keywordName);
+            List<Content> contents = contentRepository.findByContentKeywordsIn(contentKeywordReporitory.findByKeyword(keyword));
+            contents.addAll(contentRepository.findByContentMainKeyword(keyword));
+            contentList.addAll(contents);
 
-                contentSet.add(contentInfo);
-            }
         }
-        List<Map<String,Object>>contentList = new ArrayList<>(contentSet);
 
-        return contentList;
+        contentList= contentList.stream().distinct().toList();
+        return contentList
+                .stream()
+                .map(c -> c.entityToHomeContentDTO(
+                                c.getContentId(),
+                                c.getContentTitle(),
+                                c.getContentLink(),
+                                c.getContentMainKeyword().getKeyword(),
+                                c.getCoverImgUrl(),
+                                c.getImgLink(),
+                                c.getContentKeywords(),
+                                c.getLighterColor(),
+                                c.getDarkerColor(),
+                                !userId.equals(ANONYMOUS_USER) && scrapRepository
+                                        .existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
+                        )
+                )
+                .collect(Collectors.toList());
 
     }
 }

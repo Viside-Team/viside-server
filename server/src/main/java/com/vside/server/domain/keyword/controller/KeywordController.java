@@ -1,5 +1,6 @@
 package com.vside.server.domain.keyword.controller;
 
+import com.vside.server.domain.content.dto.ContentResponse;
 import com.vside.server.domain.keyword.dto.KeywordRequest;
 import com.vside.server.domain.keyword.service.KeywordService;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class KeywordController {
         System.out.println(keywordRequest.getKeywordList());
         String userId = (principal == null) ? ANONYMOUS_USER : principal.getName();
 
-        List<Map<String,Object>>contentList = keywordService.getcontentList(keywordRequest,userId);
+        List<ContentResponse>contentList = keywordService.getcontentList(keywordRequest,userId);
         Map<String, List> response = new HashMap<>();
         response.put("contents",contentList);
 

@@ -1,4 +1,4 @@
-package com.vside.server.domain.content.Entity;
+    package com.vside.server.domain.content.Entity;
 
 import com.vside.server.domain.keyword.Entity.Keyword;
 import lombok.Getter;
