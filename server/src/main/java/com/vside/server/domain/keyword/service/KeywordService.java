@@ -71,7 +71,7 @@ public class KeywordService {
 
         }
 
-        contentList= contentList.stream().distinct().toList();
+        contentList= contentList.stream().distinct().collect(Collectors.toList());
         return contentList
                 .stream()
                 .map(c -> c.entityToHomeContentDTO(
