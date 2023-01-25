@@ -40,7 +40,7 @@ public class ContentService {
         Content content  = Content.builder()
                 .contentTitle(contentRequest.getContentTitle())
                 .contentLink(contentRequest.getContentLink())
-                .contentMainKeyword(contentRequest.getContentMainKeyword())
+                .contentMainKeyword(keywordRepository.findByKeyword(contentRequest.getContentMainKeyword()))
                 .imgLink(contentRequest.getImgLink())
                 .coverImgUrl(contentRequest.getCoverImgLink())
                 .lighterColor(contentRequest.getLighterColor())
@@ -50,9 +50,9 @@ public class ContentService {
         content.setBrightBg(contentRequest.getIsBrightBg());
         System.out.println(content.isBrightBg());
         contentRepository.save(content);
-        contentRequest.getKeywords().add(contentRequest.getContentMainKeyword());
-        for(Object keywordName : contentRequest.getKeywords()){
-            Keyword keyword = keywordRepository.findByKeyword((String) keywordName);
+//        contentRequest.getKeywords().add(contentRequest.getContentMainKeyword());
+        for(String keywordName : contentRequest.getKeywords()){
+            Keyword keyword = keywordRepository.findByKeyword(keywordName);
             System.out.println(keyword.getKeyword());
             ContentKeyword contentKeyword= new ContentKeyword();
             contentKeyword.setKeyword(keyword);
@@ -99,7 +99,7 @@ public class ContentService {
                                 c.getContentId(),
                                 c.getContentTitle(),
                                 c.getContentLink(),
-                                c.getContentMainKeyword(),
+                                c.getContentMainKeyword().getKeyword(),
                                 c.getCoverImgUrl(),
                                 c.getImgLink(),
                                 c.getContentKeywords(),
@@ -118,7 +118,7 @@ public class ContentService {
         return content.entityToContentPageDTO(
                 content.getContentId(),
                 content.getContentTitle(),
-                content.getContentMainKeyword(),
+                content.getContentMainKeyword().getKeyword(),
                 content.getImgLink(),
                 content.getContentKeywords(),
                 content.getContentLink(),
