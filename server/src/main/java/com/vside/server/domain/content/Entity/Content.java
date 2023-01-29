@@ -8,6 +8,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class Content {
     private String imgLink;
 
     @Column
-    private LocalDateTime uploadDate;
+    private LocalDate uploadDate;
 
     @Lob
     @Column(name = "comtent_cover_image")
@@ -69,7 +70,7 @@ public class Content {
                    String coverImgUrl,
                    String lighterColor,
                    String darkerColor,
-                   LocalDateTime uploadDate){
+                   LocalDate uploadDate){
         this.contentLink = contentLink;
         this.contentTitle = contentTitle;
         this.contentMainKeyword = contentMainKeyword;

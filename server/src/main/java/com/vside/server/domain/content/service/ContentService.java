@@ -18,9 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -37,6 +39,7 @@ public class ContentService {
 
     @Transactional(readOnly = false)
     public Boolean addContent(ContentRequest contentRequest){
+        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Content content  = Content.builder()
                 .contentTitle(contentRequest.getContentTitle())
                 .contentLink(contentRequest.getContentLink())
@@ -45,7 +48,7 @@ public class ContentService {
                 .coverImgUrl(contentRequest.getCoverImgLink())
                 .lighterColor(contentRequest.getLighterColor())
                 .darkerColor(contentRequest.getDarkerColor())
-                .uploadDate(LocalDateTime.now())
+                .uploadDate((LocalDate.parse(contentRequest.getUploadDate(),dateTimeFormatter.withZone(TimeZone.getTimeZone("Asia/Seoul").toZoneId()))))
                 .build();
         content.setBrightBg(contentRequest.getIsBrightBg());
         System.out.println(content.isBrightBg());

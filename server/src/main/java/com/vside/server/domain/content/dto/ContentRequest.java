@@ -40,6 +40,9 @@ public class ContentRequest {
     private String coverImgLink;
 
     @NotNull
+    private String uploadDate;
+
+    @NotNull
     private String isBrightBg;
 
     @NotNull
