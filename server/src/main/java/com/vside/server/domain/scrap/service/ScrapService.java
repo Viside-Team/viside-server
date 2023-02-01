@@ -9,7 +9,6 @@ import com.vside.server.domain.scrap.dto.ScrapSuccessResponse;
 import com.vside.server.domain.user.Entity.User;
 import com.vside.server.domain.user.dao.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +31,7 @@ public class ScrapService {
     @Transactional(readOnly = true)
     public List<ScrapContentsDTO> getScrapContentList(String userId) {
         List<Content> scrapContents = scrapRepository
-                .findScrapContentsByUserId(Long.parseLong(userId), PageRequest.of(0, 24));
+                .findScrapContentsByUserId(Long.parseLong(userId));
         return scrapContents
                 .stream()
                 .map(c -> c.entityToScrapContentDTO(
