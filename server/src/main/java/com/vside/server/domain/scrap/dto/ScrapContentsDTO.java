@@ -17,6 +17,7 @@ public class ScrapContentsDTO {
     private String coverImgUrl;
     private String contentImgUrl;
     private List<String> keywords;
+    private String dateTime;
     private boolean isScrap;
 
 }
