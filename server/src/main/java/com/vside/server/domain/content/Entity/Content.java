@@ -96,6 +96,7 @@ public class Content {
             List<ContentKeyword> contentKeywords,
             String lighterColor,
             String darkerColor,
+            String dateTime,
             boolean isScrap
     ){
         return ContentResponse.builder()
@@ -108,6 +109,7 @@ public class Content {
                 .isScrap(isScrap)
                 .darkerColor(darkerColor)
                 .lighterColor(lighterColor)
+                .dateTime(dateTime)
                 .keywords(contentKeywords
                         .stream()
                         .map(ContentKeyword::getKeyword)
@@ -148,6 +150,7 @@ public class Content {
             String contentLink,
             String coverImgUrl,
             String imgLink,
+            String dateTime,
             List<ContentKeyword> contentKeywords,
             boolean isScrap
     ){
@@ -157,6 +160,7 @@ public class Content {
                 .contentLink(contentLink)
                 .coverImgUrl(coverImgUrl)
                 .contentImgUrl(imgLink)
+                .dateTime(dateTime)
                 .keywords(contentKeywords
                         .stream()
                         .map(ContentKeyword::getKeyword)
