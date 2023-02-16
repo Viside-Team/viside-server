@@ -20,4 +20,5 @@ public class ContentResponse {
     private boolean isScrap;
     private String lighterColor;
     private String darkerColor;
+    private String dateTime;
 }

@@ -109,6 +109,7 @@ public class ContentService {
                         c.getContentKeywords(),
                         c.getLighterColor(),
                         c.getDarkerColor(),
+                        c.getUploadDate().toString(),
                         !userId.equals(ANONYMOUS_USER) && scrapRepository
                                 .existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
                         )

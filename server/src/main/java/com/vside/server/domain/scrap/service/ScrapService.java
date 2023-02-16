@@ -43,6 +43,7 @@ public class ScrapService {
                         c.getContentLink(),
                         c.getCoverImgUrl(),
                         c.getImgLink(),
+                        c.getUploadDate().toString(),
                         c.getContentKeywords(),
                         true)
                 )
