@@ -1,5 +1,7 @@
 package com.vside.server.domain.auth.service;
 
+import static com.vside.server.exception.ErrorMessage.USER_ALREADY_EXISTS;
+
 import com.vside.server.domain.auth.dto.WithdrawalRequestDto;
 import com.vside.server.domain.auth.dto.WithdrawalResponseDtoCode;
 import com.vside.server.domain.common.LoginType;
@@ -19,7 +21,12 @@ public class OAuthService{
 
     private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
+
+    @Transactional
     public Long join(JoinRequest joinRequest) {
+        if (exists(joinRequest.getLoginType(), joinRequest.getSnsId())) {
+            throw new IllegalStateException(USER_ALREADY_EXISTS.getMessage());
+        }
         User user = userRepository.save(joinRequest.toEntity());
         return user.getUserId();
     }
