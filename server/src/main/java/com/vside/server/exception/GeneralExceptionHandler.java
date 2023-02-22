@@ -1,5 +1,7 @@
 package com.vside.server.exception;
 
+import static com.vside.server.exception.ErrorMessage.*;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +24,18 @@ public class GeneralExceptionHandler {
     })
     public ResponseEntity<ErrorResponse> handleBadRequestException(Exception e) {
         log.debug("Bad request exception occurred: {}", e.getMessage(), e);
-        return ResponseEntity.badRequest().body(new ErrorResponse(ErrorMessage.INVALID_INPUT_VALUE.getMessage()));
+        return ResponseEntity.badRequest().body(new ErrorResponse(INVALID_INPUT_VALUE.getMessage()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
         log.error("Handle access denied exception occurred: {}", e.getMessage(), e);
-        return ResponseEntity.badRequest().body(new ErrorResponse(ErrorMessage.HANDLE_ACCESS_DENIED.getMessage()));
+        return ResponseEntity.badRequest().body(new ErrorResponse(HANDLE_ACCESS_DENIED.getMessage()));
     }
 
     @ExceptionHandler({Exception.class, RuntimeException.class})
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("Unexpected exception occurred: {}", e.getMessage(), e);
-        return ResponseEntity.internalServerError().body(new ErrorResponse(ErrorMessage.INTERNAL_SERVER_ERROR.getMessage()));
+        return ResponseEntity.internalServerError().body(new ErrorResponse(INTERNAL_SERVER_ERROR.getMessage()));
     }
 }

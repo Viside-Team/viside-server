@@ -17,7 +17,7 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long> {
     int countByUserUserId(Long userId);
 
     @Query(value = "select c from Scrap s, Content c where s.content=c and s.user.userId=:userId order by s.scrapDate desc")
-    List<Content> findScrapContentsByUserId(@Param("userId") Long userId, Pageable pageable);
+    List<Content> findScrapContentsByUserId(@Param("userId") Long userId);
 
     Scrap findByContentAndUser(Content content, User user);
 

@@ -13,6 +13,7 @@ import com.vside.server.domain.keyword.Entity.Keyword;
 import com.vside.server.domain.keyword.dao.CategoryRepository;
 import com.vside.server.domain.keyword.dao.KeywordRepository;
 import com.vside.server.domain.scrap.dao.ScrapRepository;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,9 @@ public class ContentService {
     private final ScrapRepository scrapRepository;
 
     @Transactional(readOnly = false)
-    public Boolean addContent(ContentRequest contentRequest){
-        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        Content content  = Content.builder()
+    public Boolean addContent(ContentRequest contentRequest) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Content content = Content.builder()
                 .contentTitle(contentRequest.getContentTitle())
                 .contentLink(contentRequest.getContentLink())
                 .contentMainKeyword(keywordRepository.findByKeyword(contentRequest.getContentMainKeyword()))
@@ -48,16 +49,17 @@ public class ContentService {
                 .coverImgUrl(contentRequest.getCoverImgLink())
                 .lighterColor(contentRequest.getLighterColor())
                 .darkerColor(contentRequest.getDarkerColor())
-                .uploadDate((LocalDate.parse(contentRequest.getUploadDate(),dateTimeFormatter.withZone(TimeZone.getTimeZone("Asia/Seoul").toZoneId()))))
+                .uploadDate((LocalDate.parse(contentRequest.getUploadDate(),
+                        dateTimeFormatter.withZone(TimeZone.getTimeZone("Asia/Seoul").toZoneId()))))
                 .build();
         content.setBrightBg(contentRequest.getIsBrightBg());
         System.out.println(content.isBrightBg());
         contentRepository.save(content);
         contentRequest.getKeywords().add(contentRequest.getContentMainKeyword());
-        for(String keywordName : contentRequest.getKeywords()){
+        for (String keywordName : contentRequest.getKeywords()) {
             Keyword keyword = keywordRepository.findByKeyword(keywordName);
             System.out.println(keyword.getKeyword());
-            ContentKeyword contentKeyword= new ContentKeyword();
+            ContentKeyword contentKeyword = new ContentKeyword();
             contentKeyword.setKeyword(keyword);
             contentKeyword.setContent(content);
             contentKeywordReporitory.save(contentKeyword);
@@ -66,22 +68,20 @@ public class ContentService {
     }
 
     @Transactional(readOnly = false)
-    public Boolean addCategory(KeywordRequest keywordRequest){
-        Category category ;
-        if(categoryRepository.existsCategoryByCategory(keywordRequest.getCategory())){
+    public Boolean addCategory(KeywordRequest keywordRequest) {
+        Category category;
+        if (categoryRepository.existsCategoryByCategory(keywordRequest.getCategory())) {
             category = categoryRepository.findByCategory(keywordRequest.getCategory());
-        }
-        else {
+        } else {
             category = Category.builder().category(keywordRequest.getCategory()).build();
         }
-        for(Object keywordName : keywordRequest.getKeyword()){
+        for (Object keywordName : keywordRequest.getKeyword()) {
 
-            if(keywordRepository.existsKeywordByKeyword((String) keywordName)) {
-                Keyword keyword = keywordRepository.findByKeyword((String)keywordName);
+            if (keywordRepository.existsKeywordByKeyword((String) keywordName)) {
+                Keyword keyword = keywordRepository.findByKeyword((String) keywordName);
                 category.addCategory(keyword);
                 categoryRepository.save(category);
-            }
-            else {
+            } else {
                 Keyword keyword = new Keyword((String) keywordName);
                 keywordRepository.save(keyword);
                 category.addCategory(keyword);
@@ -96,24 +96,27 @@ public class ContentService {
     @Transactional(readOnly = true)
     public List<ContentResponse> getContentHomeList(String userId) {
         List<Content> contentList = contentRepository.findAll();
-        return contentList
+        List<ContentResponse> responseList
+                = contentList
                 .stream()
                 .map(c -> c.entityToHomeContentDTO(
-                                c.getContentId(),
-                                c.getContentTitle(),
-                                c.getContentLink(),
-                                c.getContentMainKeyword().getKeyword(),
-                                c.getCoverImgUrl(),
-                                c.getImgLink(),
-                                c.getContentKeywords(),
-                                c.getLighterColor(),
-                                c.getDarkerColor(),
-                                c.getUploadDate().toString(),
+                        c.getContentId(),
+                        c.getContentTitle(),
+                        c.getContentLink(),
+                        c.getContentMainKeyword().getKeyword(),
+                        c.getCoverImgUrl(),
+                        c.getImgLink(),
+                        c.getContentKeywords(),
+                        c.getLighterColor(),
+                        c.getDarkerColor(),
+                        c.getUploadDate().toString(),
                         !userId.equals(ANONYMOUS_USER) && scrapRepository
                                 .existsByContentContentIdAndUserUserId(c.getContentId(), Long.parseLong(userId))
                         )
                 )
                 .collect(Collectors.toList());
+        Collections.shuffle(responseList);
+        return responseList;
     }
 
     @Transactional(readOnly = true)
