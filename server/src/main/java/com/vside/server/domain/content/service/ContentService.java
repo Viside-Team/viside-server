@@ -55,7 +55,7 @@ public class ContentService {
         content.setBrightBg(contentRequest.getIsBrightBg());
         System.out.println(content.isBrightBg());
         contentRepository.save(content);
-        contentRequest.getKeywords().add(contentRequest.getContentMainKeyword());
+        //contentRequest.getKeywords().add(contentRequest.getContentMainKeyword());
         for (String keywordName : contentRequest.getKeywords()) {
             Keyword keyword = keywordRepository.findByKeyword(keywordName);
             System.out.println(keyword.getKeyword());
