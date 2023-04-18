@@ -4,14 +4,27 @@ import lombok.*;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class LoginResponse {
-    @Setter
-    private boolean memberStatus;
-    private String jwt;
 
-    public void setJwt(String jwt) {
-        this.jwt = "Bearer " + jwt;
+    public LoginResponse(boolean memberStatus) {
+        this.memberStatus = memberStatus;
+        this.accessToken = null;
+        this.refreshToken = null;
+    }
+
+    public LoginResponse(boolean memberStatus, String accessToken, String refreshToken) {
+        this.memberStatus = memberStatus;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
+
+    private boolean memberStatus;
+
+    private String accessToken;
+
+    private String refreshToken;
+
+    public void setAccessToken(String jwt) {
+        accessToken = "Bearer " + jwt;
     }
 }
