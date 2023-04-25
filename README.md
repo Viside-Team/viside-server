@@ -2,13 +2,13 @@
 
 ### 📍 Contributors
 
-[이유영](https://github.com/dldbdud314)
+👩🏻‍💻 [이유영](https://github.com/dldbdud314)
 
   - 로그인/회원가입/프로필 조회
   - 컨텐츠 리스트, 스크랩 리스트
   - 스크랩 기능
 
-[박준수](https://github.com/JJONSOO)
+🧑🏻‍💻 [박준수](https://github.com/JJONSOO)
   
   - 로그아웃/회원탈퇴
   - 키워드 리스트, 검색 기능
