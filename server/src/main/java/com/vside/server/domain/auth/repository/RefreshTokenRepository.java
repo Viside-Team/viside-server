@@ -16,8 +16,16 @@ public class RefreshTokenRepository {
 
     public void save(String authKey, String refreshToken) {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        // TODO: 시간 수정 (현재는 테스트용)
-        valueOperations.set("RT:" + authKey, refreshToken, 90, TimeUnit.SECONDS);
+        valueOperations.set("RT:" + authKey, refreshToken, 365, TimeUnit.DAYS);
     }
 
+    public Boolean hasToken(String userId) {
+        return redisTemplate.hasKey("RT:" + userId);
+    }
+
+    public boolean tokenEquals(String userId, String token) {
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        String storedToken = valueOperations.get(userId);
+        return storedToken != null && storedToken.equals(token);
+    }
 }

@@ -3,7 +3,6 @@ package com.vside.server.domain.auth.dto;
 import lombok.*;
 
 @Getter
-@NoArgsConstructor
 public class LoginResponse {
 
     public LoginResponse(boolean memberStatus) {
@@ -14,17 +13,13 @@ public class LoginResponse {
 
     public LoginResponse(boolean memberStatus, String accessToken, String refreshToken) {
         this.memberStatus = memberStatus;
-        this.accessToken = accessToken;
+        this.accessToken = "Bearer " + accessToken;
         this.refreshToken = refreshToken;
     }
 
-    private boolean memberStatus;
+    private final boolean memberStatus;
 
-    private String accessToken;
+    private final String accessToken;
 
-    private String refreshToken;
-
-    public void setAccessToken(String jwt) {
-        accessToken = "Bearer " + jwt;
-    }
+    private final String refreshToken;
 }
