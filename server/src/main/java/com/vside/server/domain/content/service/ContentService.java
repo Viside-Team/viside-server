@@ -53,12 +53,9 @@ public class ContentService {
                         dateTimeFormatter.withZone(TimeZone.getTimeZone("Asia/Seoul").toZoneId()))))
                 .build();
         content.setBrightBg(contentRequest.getIsBrightBg());
-        System.out.println(content.isBrightBg());
         contentRepository.save(content);
-        //contentRequest.getKeywords().add(contentRequest.getContentMainKeyword());
         for (String keywordName : contentRequest.getKeywords()) {
             Keyword keyword = keywordRepository.findByKeyword(keywordName);
-            System.out.println(keyword.getKeyword());
             ContentKeyword contentKeyword = new ContentKeyword();
             contentKeyword.setKeyword(keyword);
             contentKeyword.setContent(content);

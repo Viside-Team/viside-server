@@ -47,8 +47,6 @@ public class TokenHandlerFilter extends OncePerRequestFilter {
 
         Map<String, String> tokenResponse = new HashMap<>();
         tokenResponse.put("accessToken", "Bearer " + accessToken);
-        // set Security Context ?!
-
 
         new ObjectMapper().writeValue(response.getWriter(), tokenResponse);
     }
