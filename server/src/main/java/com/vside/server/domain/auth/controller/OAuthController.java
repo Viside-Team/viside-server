@@ -2,10 +2,10 @@ package com.vside.server.domain.auth.controller;
 
 import com.vside.server.domain.auth.dto.*;
 import com.vside.server.domain.auth.service.OAuthService;
+import com.vside.server.domain.auth.service.TokenService;
 import com.vside.server.domain.user.Entity.User;
 import com.vside.server.domain.user.dto.JoinRequest;
 import com.vside.server.domain.user.dto.JoinResponse;
-import com.vside.server.jwt.TokenProvider;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,8 @@ import javax.validation.Valid;
 public class OAuthController {
 
     private final OAuthService oAuthService;
-    private final TokenProvider tokenProvider;
+
+    private final TokenService tokenService;
 
     /*
     로그인
@@ -35,17 +36,20 @@ public class OAuthController {
     @PostMapping("/login")
     @ApiOperation(value = "login (JWT 토큰 필요없음)", notes = "회원 여부와 jwt token을 반환합니다")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
-        LoginResponse res = new LoginResponse();
         boolean memStat = oAuthService.exists(loginRequest.getProvider(), loginRequest.getSnsId());
         if (memStat){
             User user = oAuthService.getExistingUser(loginRequest.getSnsId());
             Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUserId(), null, AuthorityUtils.createAuthorityList("ROLE_USER"));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = tokenProvider.createToken(authentication);
-            res.setJwt(jwt);
+            // AccessToken, RefreshToken 생성
+            TokenInfoDto tokenInfo = tokenService.createToken(authentication);
+            tokenService.saveToken(tokenInfo);  // RefreshToken 저장
+            return ResponseEntity.ok().body(
+                    new LoginResponse(true, tokenInfo.getAccessToken(), tokenInfo.getRefreshToken())
+            );
         }
-        res.setMemberStatus(memStat);
-        return ResponseEntity.ok().body(res);
+
+        return ResponseEntity.ok().body(new LoginResponse(false));
     }
 
     @PostMapping("/signin")

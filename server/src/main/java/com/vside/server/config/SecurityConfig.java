@@ -1,4 +1,5 @@
 package com.vside.server.config;
+import com.vside.server.domain.auth.service.TokenService;
 import com.vside.server.jwt.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,8 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final TokenProvider tokenProvider;
+
+    private final TokenService tokenService;
     private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint; //인증 실패 핸들
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler; //인가 실패 핸들러
@@ -77,7 +80,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenProvider, tokenService));
 
         return httpSecurity.build();
     }
