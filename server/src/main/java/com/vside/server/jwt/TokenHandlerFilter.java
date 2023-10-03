@@ -42,7 +42,7 @@ public class TokenHandlerFilter extends OncePerRequestFilter {
     private void sendNewTokenResponse(final String refreshToken, HttpServletResponse response, Claims claims) throws IOException {
         final String accessToken = tokenService.handleToken(refreshToken, claims);
 
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         response.setContentType("application/json");
 
         Map<String, String> tokenResponse = new HashMap<>();
