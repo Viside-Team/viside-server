@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Services
+@Service
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
