@@ -65,7 +65,6 @@ public class ScrapService {
         return deleteScrap(content, user);
     }
 
-    @Transactional
     private ScrapSuccessResponse postScrap(Content content, User user) {
         Scrap newScrap = new Scrap(content, user);
         return ScrapSuccessResponse.builder()
@@ -74,7 +73,6 @@ public class ScrapService {
                 .build();
     }
 
-    @Transactional
     private ScrapSuccessResponse deleteScrap(Content content, User user) {
         scrapRepository.delete(scrapRepository.findByContentAndUser(content, user));
         return ScrapSuccessResponse.builder()
